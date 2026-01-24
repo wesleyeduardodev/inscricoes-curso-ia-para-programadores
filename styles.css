@@ -842,6 +842,14 @@ body {
     font-weight: 500;
     margin-bottom: 10px;
     color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+/* Asterisco colorido para campos obrigatórios (via CSS) */
+.form-group label::after {
+    content: '';
 }
 
 .form-group input,
@@ -903,11 +911,30 @@ body {
 }
 
 .char-count {
-    font-size: 12px;
+    font-size: 11px;
     color: var(--text-muted);
     text-align: right;
     margin-top: 8px;
     font-family: var(--font-mono);
+    padding: 4px 8px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 4px;
+    display: inline-block;
+    float: right;
+}
+
+.btn-text {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.btn-text svg {
+    transition: transform 0.3s ease;
+}
+
+.btn:hover .btn-text svg {
+    transform: scale(1.1);
 }
 
 .btn-loading {
@@ -927,6 +954,24 @@ body {
 
 @keyframes spin {
     to { transform: rotate(360deg); }
+}
+
+/* Form Footer */
+.form-footer {
+    margin-top: 24px;
+    text-align: center;
+}
+
+.form-security {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--text-muted);
+}
+
+.form-security svg {
+    stroke: var(--accent-green);
 }
 
 /* ========================================
