@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin | Mini Curso IA - IFMA</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+    <div id="login-page" class="login-page">
+        <div class="login-container">
+            <div class="login-header">
+                <h1>Painel Admin</h1>
+                <p>Mini Curso IA - IFMA</p>
+            </div>
+            <form id="login-form" class="login-form">
+                <div class="form-group">
+                    <label for="login-username">Usuario</label>
+                    <input type="text" id="login-username" required placeholder="Seu usuario">
+                </div>
+                <div class="form-group">
+                    <label for="login-password">Senha</label>
+                    <input type="password" id="login-password" required placeholder="Sua senha">
+                </div>
+                <div id="login-error" class="login-error"></div>
+                <button type="submit" class="btn btn-primary btn-block" id="btn-login">
+                    <span class="btn-text">Entrar</span>
+                    <span class="btn-loading" style="display: none;">Entrando...</span>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <div id="admin-page" class="admin-page" style="display: none;">
+        <header class="admin-header">
+            <div class="header-left">
+                <h1>Painel Admin</h1>
+                <span class="header-subtitle">Mini Curso IA - IFMA</span>
+            </div>
+            <div class="header-right">
+                <span id="user-email" class="user-email"></span>
+                <button id="btn-logout" class="btn btn-outline">Sair</button>
+            </div>
+        </header>
+
+        <nav class="admin-nav">
+            <button class="nav-btn active" data-tab="dashboard">Dashboard</button>
+            <button class="nav-btn" data-tab="evento">Evento</button>
+            <button class="nav-btn" data-tab="modulos">Modulos</button>
+            <button class="nav-btn" data-tab="inscricoes">Inscricoes</button>
+        </nav>
+
+        <main class="admin-content">
+            <section id="tab-dashboard" class="tab-content active">
+                <h2>Dashboard</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value" id="stat-inscritos">0</div>
+                        <div class="stat-label">Total de Inscritos</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="stat-vagas">--</div>
+                        <div class="stat-label">Vagas Disponiveis</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="stat-modulos">0</div>
+                        <div class="stat-label">Modulos</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="stat-status">--</div>
+                        <div class="stat-label">Status Inscricoes</div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="tab-evento" class="tab-content">
+                <h2>Configuracoes do Evento</h2>
+                <form id="form-evento" class="admin-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="evento-titulo">Titulo do Evento *</label>
+                            <input type="text" id="evento-titulo" required maxlength="200">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="evento-data">Data</label>
+                            <input type="date" id="evento-data">
+                        </div>
+                        <div class="form-group">
+                            <label for="evento-horario-inicio">Horario Inicio</label>
+                            <input type="time" id="evento-horario-inicio">
+                        </div>
+                        <div class="form-group">
+                            <label for="evento-horario-fim">Horario Fim</label>
+                            <input type="time" id="evento-horario-fim">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="evento-local">Local</label>
+                            <input type="text" id="evento-local" maxlength="200">
+                        </div>
+                        <div class="form-group">
+                            <label for="evento-vagas">Quantidade de Vagas</label>
+                            <input type="number" id="evento-vagas" min="1">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="evento-inscricoes-abertas">
+                            Inscricoes Abertas
+                        </label>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Salvar Configuracoes</button>
+                </form>
+            </section>
+
+            <section id="tab-modulos" class="tab-content">
+                <div class="section-header">
+                    <h2>Modulos e Itens</h2>
+                    <button id="btn-novo-modulo" class="btn btn-primary">+ Novo Modulo</button>
+                </div>
+                <div id="modulos-list" class="modulos-list">
+                    <p class="empty-message">Carregando modulos...</p>
+                </div>
+            </section>
+
+            <section id="tab-inscricoes" class="tab-content">
+                <div class="section-header">
+                    <h2>Inscricoes</h2>
+                    <button id="btn-export" class="btn btn-secondary">Exportar Excel</button>
+                </div>
+                <div class="search-bar">
+                    <input type="text" id="search-inscricoes" placeholder="Buscar por nome ou email...">
+                </div>
+                <div class="table-container">
+                    <table id="inscricoes-table" class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Email</th>
+                                <th>Curso</th>
+                                <th>Nivel</th>
+                                <th>Data</th>
+                                <th>Acoes</th>
+                            </tr>
+                        </thead>
+                        <tbody id="inscricoes-tbody">
+                            <tr><td colspan="6" class="empty-message">Carregando inscricoes...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <div id="modal-modulo" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modal-modulo-title">Novo Modulo</h3>
+                <button class="modal-close" onclick="fecharModalModulo()">&times;</button>
+            </div>
+            <form id="form-modulo" class="modal-form">
+                <input type="hidden" id="modulo-id">
+                <div class="form-group">
+                    <label for="modulo-titulo">Titulo *</label>
+                    <input type="text" id="modulo-titulo" required maxlength="200">
+                </div>
+                <div class="form-group">
+                    <label for="modulo-descricao">Descricao</label>
+                    <textarea id="modulo-descricao" rows="3"></textarea>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="modulo-ordem">Ordem *</label>
+                        <input type="number" id="modulo-ordem" required min="1">
+                    </div>
+                    <div class="form-group">
+                        <label for="modulo-carga">Carga Horaria (min)</label>
+                        <input type="number" id="modulo-carga" min="0">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="modulo-ativo" checked>
+                        Ativo
+                    </label>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-outline" onclick="fecharModalModulo()">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Salvar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="modal-item" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modal-item-title">Novo Item</h3>
+                <button class="modal-close" onclick="fecharModalItem()">&times;</button>
+            </div>
+            <form id="form-item" class="modal-form">
+                <input type="hidden" id="item-id">
+                <input type="hidden" id="item-modulo-id">
+                <div class="form-group">
+                    <label for="item-titulo">Titulo *</label>
+                    <input type="text" id="item-titulo" required maxlength="200">
+                </div>
+                <div class="form-group">
+                    <label for="item-descricao">Descricao</label>
+                    <textarea id="item-descricao" rows="2"></textarea>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="item-ordem">Ordem *</label>
+                        <input type="number" id="item-ordem" required min="1">
+                    </div>
+                    <div class="form-group">
+                        <label for="item-duracao">Duracao (min)</label>
+                        <input type="number" id="item-duracao" min="0">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="item-ativo" checked>
+                        Ativo
+                    </label>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-outline" onclick="fecharModalItem()">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Salvar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="modal-confirm" class="modal" style="display: none;">
+        <div class="modal-content modal-confirm">
+            <h3 id="confirm-title">Confirmar</h3>
+            <p id="confirm-message">Tem certeza?</p>
+            <div class="modal-actions">
+                <button class="btn btn-outline" onclick="fecharModalConfirm()">Cancelar</button>
+                <button id="btn-confirm-action" class="btn btn-danger">Confirmar</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="admin.js"></script>
+</body>
+</html>

@@ -7,3 +7,5 @@
 ### VS Code ###
 .vscode/
 /logs
+/.claude/
+.claude/settings.local.json

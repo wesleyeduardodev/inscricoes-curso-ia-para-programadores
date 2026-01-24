@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Mini Curso de Inteligencia Artificial para Programadores - Gratuito e exclusivo para alunos do IFMA">
+    <title>Mini Curso de IA para Programadores | IFMA</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container header-content">
+            <div class="logo">
+                <span class="logo-text">IFMA</span>
+                <span class="logo-divider">|</span>
+                <span class="logo-subtitle">Mini Curso IA</span>
+            </div>
+            <nav class="nav">
+                <a href="#conteudo">Conteudo</a>
+                <a href="#informacoes">Informacoes</a>
+                <a href="#inscricao">Inscreva-se</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container">
+                <div class="hero-badge">Vagas Limitadas</div>
+                <h1 class="hero-title">Mini Curso de Inteligencia Artificial para Programadores</h1>
+                <p class="hero-subtitle">Aprenda os fundamentos de IA e Machine Learning de forma pratica. Gratuito e exclusivo para alunos do IFMA.</p>
+                <a href="#inscricao" class="btn btn-primary btn-lg">Garantir minha vaga</a>
+                <div class="hero-stats">
+                    <div class="stat">
+                        <span class="stat-value" id="total-inscritos">0</span>
+                        <span class="stat-label">Inscritos</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-value" id="vagas-disponiveis">--</span>
+                        <span class="stat-label">Vagas disponiveis</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="conteudo" class="section section-alt">
+            <div class="container">
+                <h2 class="section-title">O que voce vai aprender</h2>
+                <p class="section-subtitle">Conteudo programatico completo para voce dominar os fundamentos de IA</p>
+                <div id="modulos-container" class="modulos-grid">
+                    <div class="loading-placeholder">Carregando conteudo...</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="informacoes" class="section">
+            <div class="container">
+                <h2 class="section-title">Informacoes do Evento</h2>
+                <div class="info-grid">
+                    <div class="info-card">
+                        <div class="info-icon">&#128197;</div>
+                        <div class="info-label">Data</div>
+                        <div class="info-value" id="info-data">A definir</div>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-icon">&#128336;</div>
+                        <div class="info-label">Horario</div>
+                        <div class="info-value" id="info-horario">A definir</div>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-icon">&#128205;</div>
+                        <div class="info-label">Local</div>
+                        <div class="info-value" id="info-local">A definir</div>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-icon">&#127919;</div>
+                        <div class="info-label">Carga Horaria</div>
+                        <div class="info-value" id="info-carga">A definir</div>
+                    </div>
+                    <div class="info-card highlight">
+                        <div class="info-icon">&#128176;</div>
+                        <div class="info-label">Valor</div>
+                        <div class="info-value">Gratuito</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="inscricao" class="section section-alt">
+            <div class="container">
+                <h2 class="section-title">Faca sua inscricao</h2>
+                <p class="section-subtitle">Preencha o formulario abaixo para garantir sua vaga</p>
+
+                <div id="form-container">
+                    <form id="form-inscricao" class="form-inscricao">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="nome">Nome completo *</label>
+                                <input type="text" id="nome" name="nome" required minlength="3" maxlength="150" placeholder="Seu nome completo">
+                                <span class="error-message" id="error-nome"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email *</label>
+                                <input type="email" id="email" name="email" required maxlength="150" placeholder="seu.email@exemplo.com">
+                                <span class="error-message" id="error-email"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="telefone">Telefone</label>
+                                <input type="tel" id="telefone" name="telefone" maxlength="20" placeholder="(99) 99999-9999">
+                                <span class="error-message" id="error-telefone"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="curso">Curso no IFMA *</label>
+                                <input type="text" id="curso" name="curso" required maxlength="100" placeholder="Ex: Sistemas de Informacao">
+                                <span class="error-message" id="error-curso"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="periodo">Periodo/Semestre</label>
+                                <input type="text" id="periodo" name="periodo" maxlength="20" placeholder="Ex: 5o periodo">
+                                <span class="error-message" id="error-periodo"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="nivelProgramacao">Nivel de programacao *</label>
+                                <select id="nivelProgramacao" name="nivelProgramacao" required>
+                                    <option value="">Selecione seu nivel</option>
+                                    <option value="INICIANTE">Iniciante</option>
+                                    <option value="INTERMEDIARIO">Intermediario</option>
+                                    <option value="AVANCADO">Avancado</option>
+                                </select>
+                                <span class="error-message" id="error-nivelProgramacao"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group full-width">
+                            <label for="expectativa">O que voce espera aprender?</label>
+                            <textarea id="expectativa" name="expectativa" maxlength="500" rows="4" placeholder="Conte-nos suas expectativas para o curso..."></textarea>
+                            <span class="char-count"><span id="expectativa-count">0</span>/500</span>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-lg btn-block" id="btn-submit">
+                            <span class="btn-text">Quero participar!</span>
+                            <span class="btn-loading" style="display: none;">
+                                <span class="spinner"></span> Enviando...
+                            </span>
+                        </button>
+                    </form>
+                </div>
+
+                <div id="success-message" class="success-message" style="display: none;">
+                    <div class="success-icon">&#10004;</div>
+                    <h3>Inscricao realizada com sucesso!</h3>
+                    <p>Obrigado por se inscrever. Voce recebera mais informacoes no email cadastrado.</p>
+                </div>
+
+                <div id="closed-message" class="closed-message" style="display: none;">
+                    <div class="closed-icon">&#128274;</div>
+                    <h3>Inscricoes encerradas</h3>
+                    <p>Infelizmente as inscricoes para este evento foram encerradas.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 IFMA - Instituto Federal do Maranhao. Todos os direitos reservados.</p>
+            <p class="footer-links">
+                <a href="https://portal.ifma.edu.br" target="_blank">Portal IFMA</a>
+            </p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
