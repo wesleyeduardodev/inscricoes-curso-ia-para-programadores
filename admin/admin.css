@@ -863,6 +863,14 @@ body {
     display: flex;
     align-items: center;
     gap: 12px;
+    flex: 1;
+    min-width: 0;
+}
+
+.item-actions {
+    display: flex;
+    gap: 8px;
+    flex-shrink: 0;
 }
 
 .item-ordem {
@@ -1586,14 +1594,26 @@ body {
 
     .admin-nav {
         overflow-x: auto;
-        padding: 0 20px;
+        padding: 0 12px;
         -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+    }
+
+    .admin-nav::-webkit-scrollbar {
+        display: none;
     }
 
     .nav-btn {
-        padding: 14px 16px;
+        padding: 12px 10px;
         white-space: nowrap;
-        font-size: 13px;
+        font-size: 12px;
+        gap: 6px;
+    }
+
+    .nav-btn svg {
+        width: 16px;
+        height: 16px;
     }
 
     .admin-content {
@@ -1642,16 +1662,67 @@ body {
 
     .modulo-header {
         flex-direction: column;
-        gap: 16px;
+        gap: 12px;
         align-items: flex-start;
+        padding: 16px;
+    }
+
+    .modulo-info {
+        width: 100%;
+    }
+
+    .modulo-ordem {
+        width: 36px;
+        height: 36px;
+        font-size: 13px;
+    }
+
+    .modulo-titulo {
+        font-size: 14px;
     }
 
     .modulo-actions {
         width: 100%;
+        justify-content: flex-end;
     }
 
     .modulo-actions .btn {
-        flex: 1;
+        padding: 8px 12px;
+        font-size: 12px;
+    }
+
+    .modulo-body {
+        padding: 16px;
+    }
+
+    .item-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+        padding: 12px;
+    }
+
+    .item-info {
+        width: 100%;
+    }
+
+    .item-titulo {
+        font-size: 13px;
+    }
+
+    .item-actions {
+        width: 100%;
+        justify-content: flex-end;
+    }
+
+    .item-actions .btn {
+        padding: 6px 10px;
+        font-size: 12px;
+    }
+
+    .btn-add-item {
+        width: 100%;
+        justify-content: center;
     }
 
     .data-table {
@@ -1751,5 +1822,38 @@ body {
 
     .form-row {
         grid-template-columns: 1fr;
+    }
+
+    .admin-nav {
+        padding: 0 8px;
+    }
+
+    .nav-btn {
+        padding: 10px 8px;
+        font-size: 11px;
+    }
+
+    .nav-btn svg {
+        width: 14px;
+        height: 14px;
+    }
+
+    .section-header h2 {
+        font-size: 18px;
+    }
+
+    .section-header .btn {
+        padding: 10px 14px;
+        font-size: 13px;
+    }
+
+    .modulo-info {
+        gap: 12px;
+    }
+
+    .modulo-ordem {
+        width: 32px;
+        height: 32px;
+        font-size: 12px;
     }
 }
