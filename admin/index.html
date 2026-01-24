@@ -285,22 +285,32 @@
             <section id="tab-inscricoes" class="tab-content">
                 <div class="section-header">
                     <h2>Inscricoes</h2>
-                    <button id="btn-export" class="btn btn-secondary">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                            <polyline points="7 10 12 15 17 10"/>
-                            <line x1="12" y1="15" x2="12" y2="3"/>
-                        </svg>
-                        Exportar Excel
-                    </button>
+                    <div class="section-header-actions">
+                        <div class="per-page-select">
+                            <label for="items-per-page">Exibir:</label>
+                            <select id="items-per-page">
+                                <option value="10">10</option>
+                                <option value="25">25</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                            </select>
+                        </div>
+                        <button id="btn-export" class="btn btn-secondary">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                                <polyline points="7 10 12 15 17 10"/>
+                                <line x1="12" y1="15" x2="12" y2="3"/>
+                            </svg>
+                            Exportar
+                        </button>
+                    </div>
                 </div>
-                <div class="search-bar">
-                    <input type="text" id="search-inscricoes" placeholder="Buscar por nome ou email...">
-                </div>
+
+                <!-- Tabela com filtros -->
                 <div class="table-container">
-                    <table id="inscricoes-table" class="data-table">
+                    <table id="inscricoes-table" class="data-table data-table-filterable">
                         <thead>
-                            <tr>
+                            <tr class="table-header-row">
                                 <th>Nome</th>
                                 <th>Email</th>
                                 <th>Curso</th>
@@ -308,11 +318,54 @@
                                 <th>Data</th>
                                 <th>Acoes</th>
                             </tr>
+                            <tr class="table-filter-row">
+                                <th><input type="text" id="filter-nome" placeholder="Filtrar..." class="filter-input"></th>
+                                <th><input type="text" id="filter-email" placeholder="Filtrar..." class="filter-input"></th>
+                                <th><input type="text" id="filter-curso" placeholder="Filtrar..." class="filter-input"></th>
+                                <th>
+                                    <select id="filter-nivel" class="filter-select">
+                                        <option value="">Todos</option>
+                                        <option value="INICIANTE">Iniciante</option>
+                                        <option value="INTERMEDIARIO">Intermediario</option>
+                                        <option value="AVANCADO">Avancado</option>
+                                    </select>
+                                </th>
+                                <th></th>
+                                <th>
+                                    <button id="btn-clear-filters" class="btn btn-sm btn-ghost" title="Limpar filtros">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+                                        </svg>
+                                    </button>
+                                </th>
+                            </tr>
                         </thead>
                         <tbody id="inscricoes-tbody">
                             <tr><td colspan="6" class="empty-message">Carregando inscricoes...</td></tr>
                         </tbody>
                     </table>
+                </div>
+
+                <!-- Paginação -->
+                <div class="pagination-container">
+                    <div class="pagination-info">
+                        <span id="pagination-info">Mostrando 0-0 de 0</span>
+                    </div>
+                    <div class="pagination-controls">
+                        <button id="btn-prev-page" class="btn btn-sm btn-outline" disabled>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="15 18 9 12 15 6"/>
+                            </svg>
+                            Anterior
+                        </button>
+                        <div id="pagination-pages" class="pagination-pages"></div>
+                        <button id="btn-next-page" class="btn btn-sm btn-outline">
+                            Proximo
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="9 18 15 12 9 6"/>
+                            </svg>
+                        </button>
+                    </div>
                 </div>
             </section>
         </main>

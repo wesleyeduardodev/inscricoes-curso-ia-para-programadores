@@ -79,7 +79,16 @@ function setupEventListeners() {
     document.getElementById('form-modulo').addEventListener('submit', handleSaveModulo);
     document.getElementById('form-item').addEventListener('submit', handleSaveItem);
     document.getElementById('btn-export').addEventListener('click', handleExport);
-    document.getElementById('search-inscricoes').addEventListener('input', handleSearch);
+    document.getElementById('items-per-page').addEventListener('change', handleItemsPerPageChange);
+    document.getElementById('btn-prev-page').addEventListener('click', handlePrevPage);
+    document.getElementById('btn-next-page').addEventListener('click', handleNextPage);
+
+    // Filtros por coluna
+    document.getElementById('filter-nome').addEventListener('input', applyFilters);
+    document.getElementById('filter-email').addEventListener('input', applyFilters);
+    document.getElementById('filter-curso').addEventListener('input', applyFilters);
+    document.getElementById('filter-nivel').addEventListener('change', applyFilters);
+    document.getElementById('btn-clear-filters').addEventListener('click', clearFilters);
 }
 
 async function handleLogin(e) {
@@ -540,6 +549,9 @@ function fecharModalConfirm() {
 }
 
 let allInscricoes = [];
+let filteredInscricoes = [];
+let currentPage = 1;
+let itemsPerPage = 10;
 
 async function loadInscricoes() {
     const tbody = document.getElementById('inscricoes-tbody');
@@ -549,7 +561,10 @@ async function loadInscricoes() {
         const response = await apiRequest(`${MINICURSO_URL}/inscricoes`);
         if (response.ok) {
             allInscricoes = await response.json();
-            renderInscricoes(allInscricoes);
+            filteredInscricoes = [...allInscricoes];
+            currentPage = 1;
+            clearFilters();
+            renderInscricoes();
         }
     } catch (error) {
         console.error('Erro ao carregar inscricoes:', error);
@@ -557,20 +572,57 @@ async function loadInscricoes() {
     }
 }
 
-function renderInscricoes(inscricoes) {
+function applyFilters() {
+    const filterNome = document.getElementById('filter-nome').value.toLowerCase();
+    const filterEmail = document.getElementById('filter-email').value.toLowerCase();
+    const filterCurso = document.getElementById('filter-curso').value.toLowerCase();
+    const filterNivel = document.getElementById('filter-nivel').value;
+
+    filteredInscricoes = allInscricoes.filter(i => {
+        const matchNome = !filterNome || i.nome.toLowerCase().includes(filterNome);
+        const matchEmail = !filterEmail || i.email.toLowerCase().includes(filterEmail);
+        const matchCurso = !filterCurso || i.curso.toLowerCase().includes(filterCurso);
+        const matchNivel = !filterNivel || i.nivelProgramacao === filterNivel;
+        return matchNome && matchEmail && matchCurso && matchNivel;
+    });
+
+    currentPage = 1;
+    renderInscricoes();
+}
+
+function clearFilters() {
+    document.getElementById('filter-nome').value = '';
+    document.getElementById('filter-email').value = '';
+    document.getElementById('filter-curso').value = '';
+    document.getElementById('filter-nivel').value = '';
+    filteredInscricoes = [...allInscricoes];
+    currentPage = 1;
+    renderInscricoes();
+}
+
+function renderInscricoes() {
     const tbody = document.getElementById('inscricoes-tbody');
 
-    if (inscricoes.length === 0) {
+    if (filteredInscricoes.length === 0) {
         tbody.innerHTML = '<tr><td colspan="6" class="empty-message">Nenhuma inscricao encontrada.</td></tr>';
+        updatePagination(0, 0, 0);
         return;
     }
 
-    tbody.innerHTML = inscricoes.map(inscricao => `
+    // Calcular paginacao
+    const totalItems = filteredInscricoes.length;
+    const totalPages = Math.ceil(totalItems / itemsPerPage);
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = Math.min(startIndex + itemsPerPage, totalItems);
+    const pageItems = filteredInscricoes.slice(startIndex, endIndex);
+
+    // Render tabela
+    tbody.innerHTML = pageItems.map(inscricao => `
         <tr>
             <td>${escapeHtml(inscricao.nome)}</td>
             <td>${escapeHtml(inscricao.email)}</td>
             <td>${escapeHtml(inscricao.curso)}</td>
-            <td>${inscricao.nivelProgramacao}</td>
+            <td><span class="nivel-badge nivel-${inscricao.nivelProgramacao.toLowerCase()}">${inscricao.nivelProgramacao}</span></td>
             <td>${formatDate(inscricao.createdAt)}</td>
             <td>
                 <button class="btn btn-sm btn-danger" onclick="confirmarExcluirInscricao(${inscricao.id})">
@@ -579,15 +631,81 @@ function renderInscricoes(inscricoes) {
             </td>
         </tr>
     `).join('');
+
+    // Atualizar paginacao
+    updatePagination(startIndex + 1, endIndex, totalItems);
+    renderPaginationPages(totalPages);
 }
 
-function handleSearch(e) {
-    const term = e.target.value.toLowerCase();
-    const filtered = allInscricoes.filter(i =>
-        i.nome.toLowerCase().includes(term) ||
-        i.email.toLowerCase().includes(term)
-    );
-    renderInscricoes(filtered);
+function updatePagination(start, end, total) {
+    document.getElementById('pagination-info').textContent =
+        total > 0 ? `Mostrando ${start}-${end} de ${total}` : 'Nenhum resultado';
+
+    document.getElementById('btn-prev-page').disabled = currentPage <= 1;
+    document.getElementById('btn-next-page').disabled = currentPage >= Math.ceil(total / itemsPerPage);
+}
+
+function renderPaginationPages(totalPages) {
+    const container = document.getElementById('pagination-pages');
+    if (totalPages <= 1) {
+        container.innerHTML = '';
+        return;
+    }
+
+    let pages = [];
+
+    // Sempre mostrar primeira pagina
+    pages.push(1);
+
+    // Paginas ao redor da atual
+    for (let i = Math.max(2, currentPage - 1); i <= Math.min(totalPages - 1, currentPage + 1); i++) {
+        if (!pages.includes(i)) pages.push(i);
+    }
+
+    // Sempre mostrar ultima pagina
+    if (totalPages > 1) pages.push(totalPages);
+
+    // Ordenar e remover duplicatas
+    pages = [...new Set(pages)].sort((a, b) => a - b);
+
+    let html = '';
+    let lastPage = 0;
+
+    pages.forEach(page => {
+        if (lastPage && page - lastPage > 1) {
+            html += '<span class="page-btn dots">...</span>';
+        }
+        html += `<button class="page-btn ${page === currentPage ? 'active' : ''}" onclick="goToPage(${page})">${page}</button>`;
+        lastPage = page;
+    });
+
+    container.innerHTML = html;
+}
+
+function goToPage(page) {
+    currentPage = page;
+    renderInscricoes();
+}
+
+function handleItemsPerPageChange(e) {
+    itemsPerPage = parseInt(e.target.value);
+    currentPage = 1;
+    renderInscricoes();
+}
+
+function handlePrevPage() {
+    if (currentPage > 1) {
+        currentPage--;
+        renderInscricoes();
+    }
+}
+
+function handleNextPage() {
+    const totalPages = Math.ceil(filteredInscricoes.length / itemsPerPage);
+    if (currentPage < totalPages) {
+        currentPage++;
+        renderInscricoes();
+    }
 }
 
 function confirmarExcluirInscricao(id) {

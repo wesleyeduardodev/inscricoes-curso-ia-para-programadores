@@ -898,28 +898,94 @@ body {
 }
 
 /* ========================================
-   SEARCH BAR
+   SECTION HEADER ACTIONS
 ======================================== */
-.search-bar {
-    margin-bottom: 20px;
+.section-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
 }
 
-.search-bar input {
-    width: 100%;
-    max-width: 400px;
-    padding: 12px 16px 12px 44px;
+.per-page-select {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.per-page-select label {
+    font-size: 13px;
+    color: var(--text-muted);
+    white-space: nowrap;
+}
+
+.per-page-select select {
+    padding: 8px 28px 8px 12px;
     border: 1px solid var(--border-light);
     border-radius: var(--border-radius);
     font-family: var(--font-family);
-    font-size: 14px;
-    background: var(--bg-white) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.3-4.3'/%3E%3C/svg%3E") 14px center no-repeat;
+    font-size: 13px;
+    background: var(--bg-white);
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+}
+
+.per-page-select select:focus {
+    outline: none;
+    border-color: var(--accent-primary);
+}
+
+/* ========================================
+   TABLE WITH COLUMN FILTERS
+======================================== */
+.data-table-filterable .table-filter-row th {
+    padding: 8px 12px;
+    background: var(--bg-white);
+    border-bottom: 2px solid var(--border-light);
+}
+
+.filter-input {
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid var(--border-light);
+    border-radius: var(--border-radius-sm);
+    font-family: var(--font-family);
+    font-size: 12px;
+    background: var(--bg-primary);
     transition: var(--transition);
 }
 
-.search-bar input:focus {
+.filter-input:focus {
     outline: none;
     border-color: var(--accent-primary);
-    box-shadow: 0 0 0 3px var(--accent-primary-light);
+    background: var(--bg-white);
+}
+
+.filter-input::placeholder {
+    color: var(--text-muted);
+}
+
+.filter-select {
+    width: 100%;
+    padding: 8px 24px 8px 10px;
+    border: 1px solid var(--border-light);
+    border-radius: var(--border-radius-sm);
+    font-family: var(--font-family);
+    font-size: 12px;
+    background: var(--bg-primary);
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 6px center;
+}
+
+.filter-select:focus {
+    outline: none;
+    border-color: var(--accent-primary);
+    background-color: var(--bg-white);
 }
 
 /* ========================================
@@ -976,6 +1042,76 @@ body {
     color: var(--text-muted);
     padding: 60px 20px;
     font-size: 14px;
+}
+
+
+/* ========================================
+   PAGINATION
+======================================== */
+.pagination-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 24px;
+    padding: 16px 0;
+    border-top: 1px solid var(--border-light);
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.pagination-info {
+    font-size: 13px;
+    color: var(--text-muted);
+}
+
+.pagination-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.pagination-pages {
+    display: flex;
+    gap: 4px;
+}
+
+.pagination-pages .page-btn {
+    min-width: 36px;
+    height: 36px;
+    padding: 0 8px;
+    border: 1px solid var(--border-light);
+    border-radius: var(--border-radius-sm);
+    background: var(--bg-white);
+    color: var(--text-secondary);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.pagination-pages .page-btn:hover {
+    border-color: var(--accent-primary);
+    color: var(--accent-primary);
+}
+
+.pagination-pages .page-btn.active {
+    background: var(--accent-primary);
+    border-color: var(--accent-primary);
+    color: white;
+}
+
+.pagination-pages .page-btn.dots {
+    border: none;
+    background: none;
+    cursor: default;
+    color: var(--text-muted);
+}
+
+.pagination-pages .page-btn.dots:hover {
+    color: var(--text-muted);
 }
 
 /* ========================================
@@ -1335,6 +1471,35 @@ body {
 .badge-danger {
     background: var(--accent-danger-light);
     color: var(--accent-danger);
+}
+
+/* Nivel badges na tabela */
+.nivel-badge {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+.nivel-badge.nivel-iniciante,
+.nivel-iniciante {
+    background: var(--accent-info-light);
+    color: var(--accent-info);
+}
+
+.nivel-badge.nivel-intermediario,
+.nivel-intermediario {
+    background: var(--accent-warning-light);
+    color: #b45309;
+}
+
+.nivel-badge.nivel-avancado,
+.nivel-avancado {
+    background: var(--accent-primary-light);
+    color: var(--accent-primary-hover);
 }
 
 /* ========================================
@@ -1725,13 +1890,50 @@ body {
         justify-content: center;
     }
 
-    .data-table {
-        font-size: 13px;
+    /* Inscricoes responsivo */
+    .section-header-actions {
+        flex-direction: column;
+        width: 100%;
+        gap: 8px;
     }
 
-    .data-table th,
-    .data-table td {
-        padding: 12px 14px;
+    .section-header-actions .btn,
+    .section-header-actions .per-page-select {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .table-container {
+        overflow-x: auto;
+    }
+
+    .data-table-filterable {
+        min-width: 700px;
+    }
+
+    .filter-input,
+    .filter-select {
+        min-width: 80px;
+    }
+
+    .pagination-container {
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .pagination-controls {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .pagination-pages {
+        display: none;
+    }
+
+    .pagination-controls .btn {
+        flex: 1;
+        justify-content: center;
     }
 
     .admin-form {
