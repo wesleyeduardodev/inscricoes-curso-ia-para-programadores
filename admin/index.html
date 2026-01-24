@@ -348,93 +348,228 @@
     </div>
 
     <div id="modal-modulo" class="modal" style="display: none;">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 id="modal-modulo-title">Novo Modulo</h3>
-                <button class="modal-close" onclick="fecharModalModulo()">&times;</button>
+        <div class="modal-content modal-sectioned">
+            <div class="modal-header-styled">
+                <div class="modal-header-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+                        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+                    </svg>
+                </div>
+                <div class="modal-header-text">
+                    <h3 id="modal-modulo-title">Novo Modulo</h3>
+                    <p>Configure as informacoes do modulo</p>
+                </div>
+                <button class="modal-close-btn" onclick="fecharModalModulo()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+                    </svg>
+                </button>
             </div>
-            <form id="form-modulo" class="modal-form">
+            <form id="form-modulo" class="modal-form-sectioned">
                 <input type="hidden" id="modulo-id">
-                <div class="form-group">
-                    <label for="modulo-titulo">Titulo *</label>
-                    <input type="text" id="modulo-titulo" required maxlength="200" placeholder="Titulo do modulo">
-                </div>
-                <div class="form-group">
-                    <label for="modulo-descricao">Descricao</label>
-                    <textarea id="modulo-descricao" rows="3" placeholder="Descricao opcional"></textarea>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="modulo-ordem">Ordem *</label>
-                        <input type="number" id="modulo-ordem" required min="1" placeholder="1">
+
+                <!-- Seção: Informações Básicas -->
+                <div class="modal-section">
+                    <div class="modal-section-header">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                        </svg>
+                        <span>Informacoes Basicas</span>
                     </div>
-                    <div class="form-group">
-                        <label for="modulo-carga">Carga Horaria (min)</label>
-                        <input type="number" id="modulo-carga" min="0" placeholder="60">
+                    <div class="modal-section-content">
+                        <div class="form-group">
+                            <label for="modulo-titulo">Titulo do Modulo *</label>
+                            <input type="text" id="modulo-titulo" required maxlength="200" placeholder="Ex: Introducao a Inteligencia Artificial">
+                        </div>
+                        <div class="form-group">
+                            <label for="modulo-descricao">Descricao</label>
+                            <textarea id="modulo-descricao" rows="3" placeholder="Descreva o conteudo que sera abordado neste modulo..."></textarea>
+                        </div>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label class="checkbox-label">
-                        <input type="checkbox" id="modulo-ativo" checked>
-                        Ativo
-                    </label>
+
+                <!-- Seção: Configurações -->
+                <div class="modal-section">
+                    <div class="modal-section-header">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="3"/>
+                            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+                        </svg>
+                        <span>Configuracoes</span>
+                    </div>
+                    <div class="modal-section-content">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="modulo-ordem">Ordem de Exibicao *</label>
+                                <input type="number" id="modulo-ordem" required min="1" placeholder="1">
+                            </div>
+                            <div class="form-group">
+                                <label for="modulo-carga">Carga Horaria (min)</label>
+                                <input type="number" id="modulo-carga" min="0" placeholder="60">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="toggle-switch toggle-sm">
+                                <input type="checkbox" id="modulo-ativo" checked>
+                                <span class="toggle-slider"></span>
+                                <span class="toggle-label">Modulo Ativo</span>
+                            </label>
+                            <p class="toggle-hint-inline">Modulos inativos nao aparecem na landing page</p>
+                        </div>
+                    </div>
                 </div>
-                <div class="modal-actions">
-                    <button type="button" class="btn btn-secondary" onclick="fecharModalModulo()">Cancelar</button>
-                    <button type="submit" class="btn btn-primary">Salvar</button>
+
+                <div class="modal-actions-styled">
+                    <button type="button" class="btn btn-secondary" onclick="fecharModalModulo()">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+                        </svg>
+                        Cancelar
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/>
+                            <polyline points="17 21 17 13 7 13 7 21"/>
+                            <polyline points="7 3 7 8 15 8"/>
+                        </svg>
+                        Salvar Modulo
+                    </button>
                 </div>
             </form>
         </div>
     </div>
 
     <div id="modal-item" class="modal" style="display: none;">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 id="modal-item-title">Novo Item</h3>
-                <button class="modal-close" onclick="fecharModalItem()">&times;</button>
+        <div class="modal-content modal-sectioned">
+            <div class="modal-header-styled">
+                <div class="modal-header-icon item-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="8" y1="6" x2="21" y2="6"/>
+                        <line x1="8" y1="12" x2="21" y2="12"/>
+                        <line x1="8" y1="18" x2="21" y2="18"/>
+                        <line x1="3" y1="6" x2="3.01" y2="6"/>
+                        <line x1="3" y1="12" x2="3.01" y2="12"/>
+                        <line x1="3" y1="18" x2="3.01" y2="18"/>
+                    </svg>
+                </div>
+                <div class="modal-header-text">
+                    <h3 id="modal-item-title">Novo Item</h3>
+                    <p>Adicione um topico ao modulo</p>
+                </div>
+                <button class="modal-close-btn" onclick="fecharModalItem()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+                    </svg>
+                </button>
             </div>
-            <form id="form-item" class="modal-form">
+            <form id="form-item" class="modal-form-sectioned">
                 <input type="hidden" id="item-id">
                 <input type="hidden" id="item-modulo-id">
-                <div class="form-group">
-                    <label for="item-titulo">Titulo *</label>
-                    <input type="text" id="item-titulo" required maxlength="200" placeholder="Titulo do item">
-                </div>
-                <div class="form-group">
-                    <label for="item-descricao">Descricao</label>
-                    <textarea id="item-descricao" rows="2" placeholder="Descricao opcional"></textarea>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="item-ordem">Ordem *</label>
-                        <input type="number" id="item-ordem" required min="1" placeholder="1">
+
+                <!-- Seção: Conteúdo -->
+                <div class="modal-section">
+                    <div class="modal-section-header">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                            <polyline points="14 2 14 8 20 8"/>
+                            <line x1="16" y1="13" x2="8" y2="13"/>
+                            <line x1="16" y1="17" x2="8" y2="17"/>
+                            <polyline points="10 9 9 9 8 9"/>
+                        </svg>
+                        <span>Conteudo do Item</span>
                     </div>
-                    <div class="form-group">
-                        <label for="item-duracao">Duracao (min)</label>
-                        <input type="number" id="item-duracao" min="0" placeholder="30">
+                    <div class="modal-section-content">
+                        <div class="form-group">
+                            <label for="item-titulo">Titulo do Item *</label>
+                            <input type="text" id="item-titulo" required maxlength="200" placeholder="Ex: O que e Machine Learning?">
+                        </div>
+                        <div class="form-group">
+                            <label for="item-descricao">Descricao</label>
+                            <textarea id="item-descricao" rows="2" placeholder="Detalhes sobre este topico..."></textarea>
+                        </div>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label class="checkbox-label">
-                        <input type="checkbox" id="item-ativo" checked>
-                        Ativo
-                    </label>
+
+                <!-- Seção: Configurações -->
+                <div class="modal-section">
+                    <div class="modal-section-header">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"/>
+                            <polyline points="12 6 12 12 16 14"/>
+                        </svg>
+                        <span>Ordem e Duracao</span>
+                    </div>
+                    <div class="modal-section-content">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="item-ordem">Ordem no Modulo *</label>
+                                <input type="number" id="item-ordem" required min="1" placeholder="1">
+                            </div>
+                            <div class="form-group">
+                                <label for="item-duracao">Duracao (min)</label>
+                                <input type="number" id="item-duracao" min="0" placeholder="30">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="toggle-switch toggle-sm">
+                                <input type="checkbox" id="item-ativo" checked>
+                                <span class="toggle-slider"></span>
+                                <span class="toggle-label">Item Ativo</span>
+                            </label>
+                            <p class="toggle-hint-inline">Itens inativos nao aparecem na landing page</p>
+                        </div>
+                    </div>
                 </div>
-                <div class="modal-actions">
-                    <button type="button" class="btn btn-secondary" onclick="fecharModalItem()">Cancelar</button>
-                    <button type="submit" class="btn btn-primary">Salvar</button>
+
+                <div class="modal-actions-styled">
+                    <button type="button" class="btn btn-secondary" onclick="fecharModalItem()">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+                        </svg>
+                        Cancelar
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/>
+                            <polyline points="17 21 17 13 7 13 7 21"/>
+                            <polyline points="7 3 7 8 15 8"/>
+                        </svg>
+                        Salvar Item
+                    </button>
                 </div>
             </form>
         </div>
     </div>
 
     <div id="modal-confirm" class="modal" style="display: none;">
-        <div class="modal-content modal-confirm">
-            <h3 id="confirm-title">Confirmar</h3>
-            <p id="confirm-message">Tem certeza?</p>
-            <div class="modal-actions">
-                <button class="btn btn-secondary" onclick="fecharModalConfirm()">Cancelar</button>
-                <button id="btn-confirm-action" class="btn btn-danger">Confirmar</button>
+        <div class="modal-content modal-confirm-styled">
+            <div class="confirm-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+                    <line x1="12" y1="9" x2="12" y2="13"/>
+                    <line x1="12" y1="17" x2="12.01" y2="17"/>
+                </svg>
+            </div>
+            <h3 id="confirm-title">Confirmar Exclusao</h3>
+            <p id="confirm-message">Tem certeza que deseja excluir este item? Esta acao nao pode ser desfeita.</p>
+            <div class="confirm-actions">
+                <button class="btn btn-secondary btn-block-mobile" onclick="fecharModalConfirm()">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+                    </svg>
+                    Cancelar
+                </button>
+                <button id="btn-confirm-action" class="btn btn-danger btn-block-mobile">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="3 6 5 6 21 6"/>
+                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                        <line x1="10" y1="11" x2="10" y2="17"/>
+                        <line x1="14" y1="11" x2="14" y2="17"/>
+                    </svg>
+                    Excluir
+                </button>
             </div>
         </div>
     </div>
