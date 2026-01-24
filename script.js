@@ -75,24 +75,47 @@ function renderizarModulos(modulos) {
     const container = document.getElementById('modulos-container');
 
     if (!modulos || modulos.length === 0) {
-        container.innerHTML = '<p class="loading-placeholder">Conteudo programatico em breve.</p>';
+        container.innerHTML = `
+            <div class="modulos-empty">
+                <div class="modulos-empty-icon">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+                        <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+                    </svg>
+                </div>
+                <h3>Conteudo em preparacao</h3>
+                <p>O conteudo programatico sera divulgado em breve. Fique atento!</p>
+            </div>
+        `;
         return;
     }
 
-    container.innerHTML = modulos.map(modulo => `
+    container.innerHTML = modulos.map((modulo, index) => `
         <div class="modulo-card">
             <div class="modulo-header">
-                <div class="modulo-ordem">${modulo.ordem}</div>
+                <div class="modulo-numero">
+                    <span class="modulo-numero-label">Modulo</span>
+                    <span class="modulo-numero-value">${String(index + 1).padStart(2, '0')}</span>
+                </div>
                 ${modulo.cargaHorariaFormatada ?
-                    `<div class="modulo-carga">${modulo.cargaHorariaFormatada}</div>` : ''}
+                    `<div class="modulo-carga">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"/>
+                            <polyline points="12 6 12 12 16 14"/>
+                        </svg>
+                        ${modulo.cargaHorariaFormatada}
+                    </div>` : ''}
             </div>
             <h3 class="modulo-titulo">${escapeHtml(modulo.titulo)}</h3>
             ${modulo.descricao ?
                 `<p class="modulo-descricao">${escapeHtml(modulo.descricao)}</p>` : ''}
             ${modulo.itens && modulo.itens.length > 0 ? `
                 <ul class="modulo-itens">
-                    ${modulo.itens.map(item => `
-                        <li>${escapeHtml(item.titulo)}</li>
+                    ${modulo.itens.map((item, i) => `
+                        <li>
+                            <span class="item-numero">${String(i + 1).padStart(2, '0')}</span>
+                            ${escapeHtml(item.titulo)}
+                        </li>
                     `).join('')}
                 </ul>
             ` : ''}
