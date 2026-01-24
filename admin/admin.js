@@ -182,6 +182,7 @@ function showAdminPage() {
     document.getElementById('login-page').style.display = 'none';
     document.getElementById('admin-page').style.display = 'block';
     document.getElementById('user-email').textContent = currentUser.username;
+    document.getElementById('user-name').textContent = currentUser.username;
     loadDashboard();
 }
 
