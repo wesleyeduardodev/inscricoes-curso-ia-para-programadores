@@ -311,16 +311,21 @@
                     <table id="inscricoes-table" class="data-table data-table-filterable">
                         <thead>
                             <tr class="table-header-row">
+                                <th>ID</th>
                                 <th>Nome</th>
                                 <th>Email</th>
+                                <th>Telefone</th>
                                 <th>Curso</th>
                                 <th>Nivel</th>
+                                <th>Periodo</th>
                                 <th>Data</th>
                                 <th>Acoes</th>
                             </tr>
                             <tr class="table-filter-row">
+                                <th></th>
                                 <th><input type="text" id="filter-nome" placeholder="Filtrar..." class="filter-input"></th>
                                 <th><input type="text" id="filter-email" placeholder="Filtrar..." class="filter-input"></th>
+                                <th></th>
                                 <th><input type="text" id="filter-curso" placeholder="Filtrar..." class="filter-input"></th>
                                 <th>
                                     <select id="filter-nivel" class="filter-select">
@@ -330,6 +335,7 @@
                                         <option value="AVANCADO">Avancado</option>
                                     </select>
                                 </th>
+                                <th></th>
                                 <th></th>
                                 <th>
                                     <button id="btn-clear-filters" class="btn btn-sm btn-ghost" title="Limpar filtros">
@@ -341,7 +347,7 @@
                             </tr>
                         </thead>
                         <tbody id="inscricoes-tbody">
-                            <tr><td colspan="6" class="empty-message">Carregando inscricoes...</td></tr>
+                            <tr><td colspan="9" class="empty-message">Carregando inscricoes...</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -352,6 +358,12 @@
                         <span id="pagination-info">Mostrando 0-0 de 0</span>
                     </div>
                     <div class="pagination-controls">
+                        <button id="btn-first-page" class="btn btn-sm btn-outline" disabled title="Primeira pagina">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="11 17 6 12 11 7"/>
+                                <polyline points="18 17 13 12 18 7"/>
+                            </svg>
+                        </button>
                         <button id="btn-prev-page" class="btn btn-sm btn-outline" disabled>
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <polyline points="15 18 9 12 15 6"/>
@@ -363,6 +375,12 @@
                             Proximo
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <polyline points="9 18 15 12 9 6"/>
+                            </svg>
+                        </button>
+                        <button id="btn-last-page" class="btn btn-sm btn-outline" title="Ultima pagina">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="13 17 18 12 13 7"/>
+                                <polyline points="6 17 11 12 6 7"/>
                             </svg>
                         </button>
                     </div>

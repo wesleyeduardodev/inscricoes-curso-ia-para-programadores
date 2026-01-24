@@ -443,9 +443,9 @@ body {
    MAIN CONTENT
 ======================================== */
 .admin-content {
-    padding: 32px;
+    padding: 24px 32px;
     padding-bottom: 100px;
-    max-width: 1280px;
+    max-width: 1600px;
     margin: 0 auto;
     width: 100%;
     flex: 1;
@@ -1005,7 +1005,7 @@ body {
 
 .data-table th,
 .data-table td {
-    padding: 14px 20px;
+    padding: 12px 14px;
     text-align: left;
 }
 
@@ -1035,6 +1035,25 @@ body {
 
 .data-table tbody tr:last-child td {
     border-bottom: none;
+}
+
+/* Colunas especificas */
+.td-id {
+    font-weight: 600;
+    color: var(--text-muted);
+    font-size: 12px;
+    white-space: nowrap;
+}
+
+.td-date {
+    white-space: nowrap;
+    font-size: 13px;
+}
+
+.data-table-filterable th:first-child,
+.data-table-filterable td:first-child {
+    width: 50px;
+    text-align: center;
 }
 
 .empty-message {
@@ -1665,7 +1684,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    max-width: 1280px;
+    max-width: 1600px;
     margin: 0 auto;
 }
 

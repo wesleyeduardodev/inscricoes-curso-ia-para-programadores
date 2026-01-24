@@ -80,8 +80,10 @@ function setupEventListeners() {
     document.getElementById('form-item').addEventListener('submit', handleSaveItem);
     document.getElementById('btn-export').addEventListener('click', handleExport);
     document.getElementById('items-per-page').addEventListener('change', handleItemsPerPageChange);
+    document.getElementById('btn-first-page').addEventListener('click', handleFirstPage);
     document.getElementById('btn-prev-page').addEventListener('click', handlePrevPage);
     document.getElementById('btn-next-page').addEventListener('click', handleNextPage);
+    document.getElementById('btn-last-page').addEventListener('click', handleLastPage);
 
     // Filtros por coluna
     document.getElementById('filter-nome').addEventListener('input', applyFilters);
@@ -561,6 +563,8 @@ async function loadInscricoes() {
         const response = await apiRequest(`${MINICURSO_URL}/inscricoes`);
         if (response.ok) {
             allInscricoes = await response.json();
+            // Ordenar por nome alfabeticamente por padrao
+            allInscricoes.sort((a, b) => a.nome.localeCompare(b.nome, 'pt-BR'));
             filteredInscricoes = [...allInscricoes];
             currentPage = 1;
             clearFilters();
@@ -604,7 +608,7 @@ function renderInscricoes() {
     const tbody = document.getElementById('inscricoes-tbody');
 
     if (filteredInscricoes.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="6" class="empty-message">Nenhuma inscricao encontrada.</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="9" class="empty-message">Nenhuma inscricao encontrada.</td></tr>';
         updatePagination(0, 0, 0);
         return;
     }
@@ -619,11 +623,14 @@ function renderInscricoes() {
     // Render tabela
     tbody.innerHTML = pageItems.map(inscricao => `
         <tr>
+            <td class="td-id">${inscricao.id}</td>
             <td>${escapeHtml(inscricao.nome)}</td>
             <td>${escapeHtml(inscricao.email)}</td>
+            <td>${escapeHtml(inscricao.telefone || '-')}</td>
             <td>${escapeHtml(inscricao.curso)}</td>
             <td><span class="nivel-badge nivel-${inscricao.nivelProgramacao.toLowerCase()}">${inscricao.nivelProgramacao}</span></td>
-            <td>${formatDate(inscricao.createdAt)}</td>
+            <td>${escapeHtml(inscricao.periodo || '-')}</td>
+            <td class="td-date">${formatDate(inscricao.createdAt)}</td>
             <td>
                 <button class="btn btn-sm btn-danger" onclick="confirmarExcluirInscricao(${inscricao.id})">
                     Excluir
@@ -641,8 +648,11 @@ function updatePagination(start, end, total) {
     document.getElementById('pagination-info').textContent =
         total > 0 ? `Mostrando ${start}-${end} de ${total}` : 'Nenhum resultado';
 
+    const totalPages = Math.ceil(total / itemsPerPage);
+    document.getElementById('btn-first-page').disabled = currentPage <= 1;
     document.getElementById('btn-prev-page').disabled = currentPage <= 1;
-    document.getElementById('btn-next-page').disabled = currentPage >= Math.ceil(total / itemsPerPage);
+    document.getElementById('btn-next-page').disabled = currentPage >= totalPages;
+    document.getElementById('btn-last-page').disabled = currentPage >= totalPages;
 }
 
 function renderPaginationPages(totalPages) {
@@ -693,6 +703,11 @@ function handleItemsPerPageChange(e) {
     renderInscricoes();
 }
 
+function handleFirstPage() {
+    currentPage = 1;
+    renderInscricoes();
+}
+
 function handlePrevPage() {
     if (currentPage > 1) {
         currentPage--;
@@ -706,6 +721,12 @@ function handleNextPage() {
         currentPage++;
         renderInscricoes();
     }
+}
+
+function handleLastPage() {
+    const totalPages = Math.ceil(filteredInscricoes.length / itemsPerPage);
+    currentPage = totalPages;
+    renderInscricoes();
 }
 
 function confirmarExcluirInscricao(id) {
