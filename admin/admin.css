@@ -1147,7 +1147,7 @@ body {
 }
 
 .mobile-only {
-    display: none;
+    display: none !important;
 }
 
 /* ========================================
@@ -2352,6 +2352,10 @@ body {
 
     .mobile-only {
         display: block !important;
+    }
+
+    .inscricoes-cards.mobile-only {
+        display: flex !important;
     }
 
     .mobile-filters {
