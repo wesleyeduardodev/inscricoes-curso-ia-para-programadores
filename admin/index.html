@@ -143,51 +143,126 @@
 
             <section id="tab-evento" class="tab-content">
                 <h2>Configuracoes do Evento</h2>
-                <form id="form-evento" class="admin-form">
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="evento-titulo">Titulo do Evento *</label>
-                            <input type="text" id="evento-titulo" required maxlength="200" placeholder="Nome do evento">
+                <form id="form-evento" class="evento-form">
+                    <!-- Seção: Informações Básicas -->
+                    <div class="form-section">
+                        <div class="form-section-header">
+                            <div class="form-section-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <h3>Informacoes Basicas</h3>
+                                <p>Nome do evento</p>
+                            </div>
+                        </div>
+                        <div class="form-section-content">
+                            <div class="form-group">
+                                <label for="evento-titulo">Titulo do Evento *</label>
+                                <input type="text" id="evento-titulo" required maxlength="200" placeholder="Ex: Mini Curso de IA para Programadores">
+                            </div>
                         </div>
                     </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="evento-data">Data</label>
-                            <input type="date" id="evento-data">
+
+                    <!-- Seção: Data e Horário -->
+                    <div class="form-section">
+                        <div class="form-section-header">
+                            <div class="form-section-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                                    <line x1="16" y1="2" x2="16" y2="6"/>
+                                    <line x1="8" y1="2" x2="8" y2="6"/>
+                                    <line x1="3" y1="10" x2="21" y2="10"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <h3>Data e Horario</h3>
+                                <p>Quando o evento acontecera</p>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="evento-horario-inicio">Horario Inicio</label>
-                            <input type="time" id="evento-horario-inicio">
-                        </div>
-                        <div class="form-group">
-                            <label for="evento-horario-fim">Horario Fim</label>
-                            <input type="time" id="evento-horario-fim">
+                        <div class="form-section-content">
+                            <div class="form-grid-3">
+                                <div class="form-group">
+                                    <label for="evento-data">Data</label>
+                                    <input type="date" id="evento-data">
+                                </div>
+                                <div class="form-group">
+                                    <label for="evento-horario-inicio">Horario Inicio</label>
+                                    <input type="time" id="evento-horario-inicio">
+                                </div>
+                                <div class="form-group">
+                                    <label for="evento-horario-fim">Horario Fim</label>
+                                    <input type="time" id="evento-horario-fim">
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="evento-local">Local</label>
-                            <input type="text" id="evento-local" maxlength="200" placeholder="Local do evento">
+
+                    <!-- Seção: Local e Vagas -->
+                    <div class="form-section">
+                        <div class="form-section-header">
+                            <div class="form-section-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                                    <circle cx="12" cy="10" r="3"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <h3>Local e Vagas</h3>
+                                <p>Onde e quantos participantes</p>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="evento-vagas">Quantidade de Vagas</label>
-                            <input type="number" id="evento-vagas" min="1" placeholder="Ex: 30">
+                        <div class="form-section-content">
+                            <div class="form-grid-2">
+                                <div class="form-group">
+                                    <label for="evento-local">Local</label>
+                                    <input type="text" id="evento-local" maxlength="200" placeholder="Ex: IFMA Campus Monte Castelo">
+                                </div>
+                                <div class="form-group">
+                                    <label for="evento-vagas">Quantidade de Vagas</label>
+                                    <input type="number" id="evento-vagas" min="1" placeholder="Ex: 30">
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label class="checkbox-label">
-                            <input type="checkbox" id="evento-inscricoes-abertas">
-                            Inscricoes Abertas
-                        </label>
+
+                    <!-- Seção: Status -->
+                    <div class="form-section">
+                        <div class="form-section-header">
+                            <div class="form-section-icon status">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                                    <polyline points="22 4 12 14.01 9 11.01"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <h3>Status das Inscricoes</h3>
+                                <p>Controle de abertura</p>
+                            </div>
+                        </div>
+                        <div class="form-section-content">
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="evento-inscricoes-abertas">
+                                <span class="toggle-slider"></span>
+                                <span class="toggle-label">Inscricoes Abertas</span>
+                            </label>
+                            <p class="toggle-hint">Quando ativado, novos participantes podem se inscrever no evento.</p>
+                        </div>
                     </div>
-                    <button type="submit" class="btn btn-primary">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/>
-                            <polyline points="17 21 17 13 7 13 7 21"/>
-                            <polyline points="7 3 7 8 15 8"/>
-                        </svg>
-                        Salvar Configuracoes
-                    </button>
+
+                    <!-- Botão Salvar -->
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary btn-lg">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/>
+                                <polyline points="17 21 17 13 7 13 7 21"/>
+                                <polyline points="7 3 7 8 15 8"/>
+                            </svg>
+                            Salvar Configuracoes
+                        </button>
+                    </div>
                 </form>
             </section>
 
@@ -363,6 +438,9 @@
             </div>
         </div>
     </div>
+
+    <!-- Toast Container -->
+    <div id="toast-container" class="toast-container"></div>
 
     <script src="admin.js"></script>
 </body>

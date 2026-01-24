@@ -6,6 +6,50 @@ let currentToken = null;
 let currentUser = null;
 let eventoData = null;
 
+// ========================================
+// TOAST NOTIFICATIONS
+// ========================================
+function showToast(message, type = 'success', title = null) {
+    const container = document.getElementById('toast-container');
+
+    const icons = {
+        success: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>',
+        error: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>',
+        warning: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>',
+        info: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>'
+    };
+
+    const titles = {
+        success: 'Sucesso',
+        error: 'Erro',
+        warning: 'Atencao',
+        info: 'Informacao'
+    };
+
+    const toast = document.createElement('div');
+    toast.className = `toast toast-${type}`;
+    toast.innerHTML = `
+        <div class="toast-icon">${icons[type]}</div>
+        <div class="toast-content">
+            <div class="toast-title">${title || titles[type]}</div>
+            <div class="toast-message">${message}</div>
+        </div>
+        <button class="toast-close" onclick="this.parentElement.remove()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+            </svg>
+        </button>
+    `;
+
+    container.appendChild(toast);
+
+    // Auto remove after 4 seconds
+    setTimeout(() => {
+        toast.classList.add('toast-out');
+        setTimeout(() => toast.remove(), 300);
+    }, 4000);
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     checkAuth();
     setupEventListeners();
@@ -219,14 +263,14 @@ async function handleSaveEvento(e) {
         });
 
         if (response.ok) {
-            alert('Configuracoes salvas com sucesso!');
+            showToast('Configuracoes do evento salvas com sucesso!');
             loadDashboard();
         } else {
-            alert('Erro ao salvar configuracoes');
+            showToast('Erro ao salvar configuracoes do evento', 'error');
         }
     } catch (error) {
         console.error('Erro:', error);
-        alert('Erro ao salvar configuracoes');
+        showToast('Erro ao salvar configuracoes do evento', 'error');
     }
 }
 
@@ -356,12 +400,13 @@ async function handleSaveModulo(e) {
             fecharModalModulo();
             loadModulos();
             loadDashboard();
+            showToast('Modulo salvo com sucesso!');
         } else {
-            alert('Erro ao salvar modulo');
+            showToast('Erro ao salvar modulo', 'error');
         }
     } catch (error) {
         console.error('Erro:', error);
-        alert('Erro ao salvar modulo');
+        showToast('Erro ao salvar modulo', 'error');
     }
 }
 
@@ -383,12 +428,13 @@ async function excluirModulo(id) {
             fecharModalConfirm();
             loadModulos();
             loadDashboard();
+            showToast('Modulo excluido com sucesso!');
         } else {
-            alert('Erro ao excluir modulo');
+            showToast('Erro ao excluir modulo', 'error');
         }
     } catch (error) {
         console.error('Erro:', error);
-        alert('Erro ao excluir modulo');
+        showToast('Erro ao excluir modulo', 'error');
     }
 }
 
@@ -453,12 +499,13 @@ async function handleSaveItem(e) {
         if (response.ok) {
             fecharModalItem();
             loadModulos();
+            showToast('Item salvo com sucesso!');
         } else {
-            alert('Erro ao salvar item');
+            showToast('Erro ao salvar item', 'error');
         }
     } catch (error) {
         console.error('Erro:', error);
-        alert('Erro ao salvar item');
+        showToast('Erro ao salvar item', 'error');
     }
 }
 
@@ -478,12 +525,13 @@ async function excluirItem(id) {
         if (response.ok) {
             fecharModalConfirm();
             loadModulos();
+            showToast('Item excluido com sucesso!');
         } else {
-            alert('Erro ao excluir item');
+            showToast('Erro ao excluir item', 'error');
         }
     } catch (error) {
         console.error('Erro:', error);
-        alert('Erro ao excluir item');
+        showToast('Erro ao excluir item', 'error');
     }
 }
 
@@ -559,12 +607,13 @@ async function excluirInscricao(id) {
             fecharModalConfirm();
             loadInscricoes();
             loadDashboard();
+            showToast('Inscricao excluida com sucesso!');
         } else {
-            alert('Erro ao excluir inscricao');
+            showToast('Erro ao excluir inscricao', 'error');
         }
     } catch (error) {
         console.error('Erro:', error);
-        alert('Erro ao excluir inscricao');
+        showToast('Erro ao excluir inscricao', 'error');
     }
 }
 
@@ -582,12 +631,13 @@ async function handleExport() {
             a.click();
             window.URL.revokeObjectURL(url);
             a.remove();
+            showToast('Exportacao concluida com sucesso!');
         } else {
-            alert('Erro ao exportar');
+            showToast('Erro ao exportar inscricoes', 'error');
         }
     } catch (error) {
         console.error('Erro:', error);
-        alert('Erro ao exportar');
+        showToast('Erro ao exportar inscricoes', 'error');
     }
 }
 
