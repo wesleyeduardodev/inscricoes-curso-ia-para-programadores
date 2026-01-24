@@ -134,8 +134,16 @@ async function handleLogin(e) {
             currentToken = data.token;
             currentUser = { username: data.username || username, roles: data.roles };
 
-            if (!data.roles || (!data.roles.includes('ADMIN') && !data.roles.includes('ROLE_ADMIN'))) {
-                errorDiv.textContent = 'Acesso negado. Usuario nao e administrador.';
+            // Verifica se tem ADMIN_CURSO ou ADMIN (ADMIN tem acesso total)
+            const hasAdminCurso = data.roles && (
+                data.roles.includes('ADMIN_CURSO') ||
+                data.roles.includes('ROLE_ADMIN_CURSO') ||
+                data.roles.includes('ADMIN') ||
+                data.roles.includes('ROLE_ADMIN')
+            );
+
+            if (!hasAdminCurso) {
+                errorDiv.textContent = 'Acesso negado. Usuario nao tem permissao para gerenciar o minicurso.';
                 errorDiv.classList.add('show');
                 return;
             }
