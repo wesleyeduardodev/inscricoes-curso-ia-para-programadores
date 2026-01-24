@@ -306,8 +306,31 @@
                     </div>
                 </div>
 
-                <!-- Tabela com filtros -->
-                <div class="table-container">
+                <!-- Filtros Mobile -->
+                <div class="mobile-filters">
+                    <div class="mobile-filter-row">
+                        <input type="text" id="filter-nome-mobile" placeholder="Filtrar por nome..." class="filter-input">
+                        <input type="text" id="filter-email-mobile" placeholder="Filtrar por email..." class="filter-input">
+                    </div>
+                    <div class="mobile-filter-row">
+                        <input type="text" id="filter-curso-mobile" placeholder="Filtrar por curso..." class="filter-input">
+                        <select id="filter-nivel-mobile" class="filter-select">
+                            <option value="">Todos os niveis</option>
+                            <option value="INICIANTE">Iniciante</option>
+                            <option value="INTERMEDIARIO">Intermediario</option>
+                            <option value="AVANCADO">Avancado</option>
+                        </select>
+                    </div>
+                    <button id="btn-clear-filters-mobile" class="btn btn-sm btn-ghost btn-block">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+                        </svg>
+                        Limpar filtros
+                    </button>
+                </div>
+
+                <!-- Tabela Desktop -->
+                <div class="table-container desktop-only">
                     <table id="inscricoes-table" class="data-table data-table-filterable">
                         <thead>
                             <tr class="table-header-row">
@@ -350,6 +373,11 @@
                             <tr><td colspan="9" class="empty-message">Carregando inscricoes...</td></tr>
                         </tbody>
                     </table>
+                </div>
+
+                <!-- Cards Mobile -->
+                <div id="inscricoes-cards" class="inscricoes-cards mobile-only">
+                    <p class="empty-message">Carregando inscricoes...</p>
                 </div>
 
                 <!-- Paginação -->

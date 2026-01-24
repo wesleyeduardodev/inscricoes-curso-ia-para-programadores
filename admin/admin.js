@@ -85,12 +85,19 @@ function setupEventListeners() {
     document.getElementById('btn-next-page').addEventListener('click', handleNextPage);
     document.getElementById('btn-last-page').addEventListener('click', handleLastPage);
 
-    // Filtros por coluna
-    document.getElementById('filter-nome').addEventListener('input', applyFilters);
-    document.getElementById('filter-email').addEventListener('input', applyFilters);
-    document.getElementById('filter-curso').addEventListener('input', applyFilters);
-    document.getElementById('filter-nivel').addEventListener('change', applyFilters);
-    document.getElementById('btn-clear-filters').addEventListener('click', clearFilters);
+    // Filtros desktop
+    document.getElementById('filter-nome').addEventListener('input', applyFiltersDesktop);
+    document.getElementById('filter-email').addEventListener('input', applyFiltersDesktop);
+    document.getElementById('filter-curso').addEventListener('input', applyFiltersDesktop);
+    document.getElementById('filter-nivel').addEventListener('change', applyFiltersDesktop);
+    document.getElementById('btn-clear-filters').addEventListener('click', clearFiltersDesktop);
+
+    // Filtros mobile
+    document.getElementById('filter-nome-mobile').addEventListener('input', applyFiltersMobile);
+    document.getElementById('filter-email-mobile').addEventListener('input', applyFiltersMobile);
+    document.getElementById('filter-curso-mobile').addEventListener('input', applyFiltersMobile);
+    document.getElementById('filter-nivel-mobile').addEventListener('change', applyFiltersMobile);
+    document.getElementById('btn-clear-filters-mobile').addEventListener('click', clearFiltersMobile);
 }
 
 async function handleLogin(e) {
@@ -557,7 +564,9 @@ let itemsPerPage = 10;
 
 async function loadInscricoes() {
     const tbody = document.getElementById('inscricoes-tbody');
-    tbody.innerHTML = '<tr><td colspan="6" class="empty-message">Carregando...</td></tr>';
+    const cards = document.getElementById('inscricoes-cards');
+    tbody.innerHTML = '<tr><td colspan="9" class="empty-message">Carregando...</td></tr>';
+    cards.innerHTML = '<p class="empty-message">Carregando inscricoes...</p>';
 
     try {
         const response = await apiRequest(`${MINICURSO_URL}/inscricoes`);
@@ -572,16 +581,42 @@ async function loadInscricoes() {
         }
     } catch (error) {
         console.error('Erro ao carregar inscricoes:', error);
-        tbody.innerHTML = '<tr><td colspan="6" class="empty-message">Erro ao carregar inscricoes.</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="9" class="empty-message">Erro ao carregar inscricoes.</td></tr>';
+        cards.innerHTML = '<p class="empty-message">Erro ao carregar inscricoes.</p>';
     }
 }
 
-function applyFilters() {
+function applyFiltersDesktop() {
     const filterNome = document.getElementById('filter-nome').value.toLowerCase();
     const filterEmail = document.getElementById('filter-email').value.toLowerCase();
     const filterCurso = document.getElementById('filter-curso').value.toLowerCase();
     const filterNivel = document.getElementById('filter-nivel').value;
 
+    // Sincronizar com mobile
+    document.getElementById('filter-nome-mobile').value = document.getElementById('filter-nome').value;
+    document.getElementById('filter-email-mobile').value = document.getElementById('filter-email').value;
+    document.getElementById('filter-curso-mobile').value = document.getElementById('filter-curso').value;
+    document.getElementById('filter-nivel-mobile').value = filterNivel;
+
+    applyFiltersCommon(filterNome, filterEmail, filterCurso, filterNivel);
+}
+
+function applyFiltersMobile() {
+    const filterNome = document.getElementById('filter-nome-mobile').value.toLowerCase();
+    const filterEmail = document.getElementById('filter-email-mobile').value.toLowerCase();
+    const filterCurso = document.getElementById('filter-curso-mobile').value.toLowerCase();
+    const filterNivel = document.getElementById('filter-nivel-mobile').value;
+
+    // Sincronizar com desktop
+    document.getElementById('filter-nome').value = document.getElementById('filter-nome-mobile').value;
+    document.getElementById('filter-email').value = document.getElementById('filter-email-mobile').value;
+    document.getElementById('filter-curso').value = document.getElementById('filter-curso-mobile').value;
+    document.getElementById('filter-nivel').value = filterNivel;
+
+    applyFiltersCommon(filterNome, filterEmail, filterCurso, filterNivel);
+}
+
+function applyFiltersCommon(filterNome, filterEmail, filterCurso, filterNivel) {
     filteredInscricoes = allInscricoes.filter(i => {
         const matchNome = !filterNome || i.nome.toLowerCase().includes(filterNome);
         const matchEmail = !filterEmail || i.email.toLowerCase().includes(filterEmail);
@@ -594,21 +629,35 @@ function applyFilters() {
     renderInscricoes();
 }
 
-function clearFilters() {
+function clearFiltersDesktop() {
     document.getElementById('filter-nome').value = '';
     document.getElementById('filter-email').value = '';
     document.getElementById('filter-curso').value = '';
     document.getElementById('filter-nivel').value = '';
+    document.getElementById('filter-nome-mobile').value = '';
+    document.getElementById('filter-email-mobile').value = '';
+    document.getElementById('filter-curso-mobile').value = '';
+    document.getElementById('filter-nivel-mobile').value = '';
     filteredInscricoes = [...allInscricoes];
     currentPage = 1;
     renderInscricoes();
 }
 
+function clearFiltersMobile() {
+    clearFiltersDesktop();
+}
+
+function clearFilters() {
+    clearFiltersDesktop();
+}
+
 function renderInscricoes() {
     const tbody = document.getElementById('inscricoes-tbody');
+    const cards = document.getElementById('inscricoes-cards');
 
     if (filteredInscricoes.length === 0) {
         tbody.innerHTML = '<tr><td colspan="9" class="empty-message">Nenhuma inscricao encontrada.</td></tr>';
+        cards.innerHTML = '<p class="empty-message">Nenhuma inscricao encontrada.</p>';
         updatePagination(0, 0, 0);
         return;
     }
@@ -620,7 +669,7 @@ function renderInscricoes() {
     const endIndex = Math.min(startIndex + itemsPerPage, totalItems);
     const pageItems = filteredInscricoes.slice(startIndex, endIndex);
 
-    // Render tabela
+    // Render tabela desktop
     tbody.innerHTML = pageItems.map(inscricao => `
         <tr>
             <td class="td-id">${inscricao.id}</td>
@@ -637,6 +686,37 @@ function renderInscricoes() {
                 </button>
             </td>
         </tr>
+    `).join('');
+
+    // Render cards mobile
+    cards.innerHTML = pageItems.map(inscricao => `
+        <div class="inscricao-card">
+            <div class="inscricao-card-header">
+                <span class="inscricao-card-id">#${inscricao.id}</span>
+                <span class="inscricao-card-name">${escapeHtml(inscricao.nome)}</span>
+                <span class="nivel-badge nivel-${inscricao.nivelProgramacao.toLowerCase()}">${inscricao.nivelProgramacao}</span>
+            </div>
+            <div class="inscricao-card-body">
+                <div class="inscricao-card-row">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                    <span>${escapeHtml(inscricao.email)}</span>
+                </div>
+                <div class="inscricao-card-row">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                    <span>${escapeHtml(inscricao.telefone || '-')}</span>
+                </div>
+                <div class="inscricao-card-row">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+                    <span>${escapeHtml(inscricao.curso)} - ${escapeHtml(inscricao.periodo || '-')}</span>
+                </div>
+            </div>
+            <div class="inscricao-card-footer">
+                <span class="inscricao-card-date">${formatDate(inscricao.createdAt)}</span>
+                <button class="btn btn-sm btn-danger" onclick="confirmarExcluirInscricao(${inscricao.id})">
+                    Excluir
+                </button>
+            </div>
+        </div>
     `).join('');
 
     // Atualizar paginacao
