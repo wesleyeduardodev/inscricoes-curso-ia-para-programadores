@@ -1035,40 +1035,159 @@ body {
 ======================================== */
 .footer {
     background: var(--bg-elevated);
-    border-top: 1px solid var(--border-color);
-    padding: 48px 0;
-    text-align: center;
+    padding: 60px 0 0;
+    position: relative;
+}
+
+.footer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(0, 212, 255, 0.3), transparent);
+}
+
+.footer-content {
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    gap: 60px;
+    padding-bottom: 40px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.footer-brand {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
 }
 
 .footer-logo {
-    font-size: 18px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.footer-logo .logo-text {
+    font-size: 22px;
     font-weight: 700;
     background: var(--gradient-green);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    margin-bottom: 16px;
 }
 
-.footer p {
+.footer-logo .logo-badge {
+    font-size: 10px;
+    font-weight: 600;
+    padding: 3px 8px;
+    background: rgba(132, 189, 0, 0.15);
+    color: var(--accent-green);
+    border-radius: 4px;
+    letter-spacing: 0.5px;
+}
+
+.footer-tagline {
     color: var(--text-muted);
     font-size: 14px;
+    margin: 0;
 }
 
-.footer-links {
-    margin-top: 16px;
-}
-
-.footer-links a {
+.footer-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
     color: var(--text-secondary);
     text-decoration: none;
+    font-size: 13px;
     font-weight: 500;
+    transition: var(--transition);
+    margin-top: 4px;
+}
+
+.footer-link:hover {
+    color: var(--accent-cyan);
+}
+
+.footer-link svg {
+    opacity: 0.7;
+    transition: var(--transition);
+}
+
+.footer-link:hover svg {
+    opacity: 1;
+    transform: translate(2px, -2px);
+}
+
+.footer-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.footer-nav-title {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-muted);
+    margin-bottom: 4px;
+}
+
+.footer-nav a {
+    color: var(--text-secondary);
+    text-decoration: none;
     font-size: 14px;
     transition: var(--transition);
 }
 
-.footer-links a:hover {
+.footer-nav a:hover {
     color: var(--accent-cyan);
+}
+
+.footer-event {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: flex-end;
+}
+
+.footer-event-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 6px 12px;
+    background: linear-gradient(135deg, rgba(0, 212, 255, 0.1) 0%, rgba(124, 58, 237, 0.1) 100%);
+    border: 1px solid rgba(0, 212, 255, 0.2);
+    border-radius: 6px;
+    color: var(--accent-cyan);
+}
+
+.footer-event-badge svg {
+    stroke: var(--accent-cyan);
+}
+
+.footer-event-name {
+    font-size: 13px;
+    color: var(--text-muted);
+    text-align: right;
+    margin: 0;
+}
+
+.footer-bottom {
+    padding: 24px 0;
+    text-align: center;
+}
+
+.footer-bottom p {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin: 0;
 }
 
 /* ========================================
@@ -1082,6 +1201,21 @@ body {
     .info-grid .info-card:nth-child(4),
     .info-grid .info-card:nth-child(5) {
         grid-column: span 1;
+    }
+
+    .footer-content {
+        grid-template-columns: 1fr 1fr;
+        gap: 40px;
+    }
+
+    .footer-event {
+        grid-column: 1 / -1;
+        align-items: center;
+        text-align: center;
+    }
+
+    .footer-event-name {
+        text-align: center;
     }
 }
 
@@ -1153,6 +1287,24 @@ body {
 
     .info-card {
         padding: 24px 16px;
+    }
+
+    .footer-content {
+        grid-template-columns: 1fr;
+        gap: 32px;
+        text-align: center;
+    }
+
+    .footer-brand {
+        align-items: center;
+    }
+
+    .footer-nav {
+        align-items: center;
+    }
+
+    .footer-event {
+        align-items: center;
     }
 }
 
