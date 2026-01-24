@@ -30,14 +30,50 @@
         <section class="hero">
             <div class="container">
                 <div class="hero-icon">
-                    <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <rect x="8" y="8" width="64" height="64" rx="16" stroke="url(#grad1)" stroke-width="2"/>
-                        <circle cx="28" cy="32" r="6" fill="#00d4ff"/>
-                        <circle cx="52" cy="32" r="6" fill="#7c3aed"/>
-                        <path d="M24 52C24 52 32 44 40 44C48 44 56 52 56 52" stroke="url(#grad1)" stroke-width="3" stroke-linecap="round"/>
-                        <circle cx="40" cy="20" r="3" fill="#00d4ff" opacity="0.5"/>
-                        <line x1="28" y1="32" x2="40" y2="20" stroke="#00d4ff" stroke-width="1" opacity="0.3"/>
-                        <line x1="52" y1="32" x2="40" y2="20" stroke="#7c3aed" stroke-width="1" opacity="0.3"/>
+                    <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Antena -->
+                        <line x1="60" y1="8" x2="60" y2="24" stroke="url(#grad1)" stroke-width="3" stroke-linecap="round"/>
+                        <circle cx="60" cy="6" r="4" fill="#00d4ff">
+                            <animate attributeName="opacity" values="1;0.4;1" dur="2s" repeatCount="indefinite"/>
+                        </circle>
+
+                        <!-- Cabeca do robo -->
+                        <rect x="20" y="24" width="80" height="70" rx="16" fill="#18181b" stroke="url(#grad1)" stroke-width="2"/>
+
+                        <!-- Orelhas/Sensores laterais -->
+                        <rect x="8" y="45" width="12" height="24" rx="4" fill="#18181b" stroke="#00d4ff" stroke-width="1.5"/>
+                        <rect x="100" y="45" width="12" height="24" rx="4" fill="#18181b" stroke="#7c3aed" stroke-width="1.5"/>
+
+                        <!-- Olhos -->
+                        <circle cx="42" cy="55" r="12" fill="#0f0f12" stroke="#00d4ff" stroke-width="2"/>
+                        <circle cx="42" cy="55" r="6" fill="#00d4ff">
+                            <animate attributeName="r" values="6;4;6" dur="3s" repeatCount="indefinite"/>
+                        </circle>
+
+                        <circle cx="78" cy="55" r="12" fill="#0f0f12" stroke="#7c3aed" stroke-width="2"/>
+                        <circle cx="78" cy="55" r="6" fill="#7c3aed">
+                            <animate attributeName="r" values="6;4;6" dur="3s" repeatCount="indefinite"/>
+                        </circle>
+
+                        <!-- Boca/Display -->
+                        <rect x="35" y="75" width="50" height="10" rx="5" fill="#0f0f12" stroke="url(#grad1)" stroke-width="1.5"/>
+                        <rect x="40" y="78" width="8" height="4" rx="2" fill="#00d4ff">
+                            <animate attributeName="opacity" values="1;0.3;1" dur="0.5s" repeatCount="indefinite"/>
+                        </rect>
+                        <rect x="52" y="78" width="8" height="4" rx="2" fill="#7c3aed">
+                            <animate attributeName="opacity" values="0.3;1;0.3" dur="0.5s" repeatCount="indefinite"/>
+                        </rect>
+                        <rect x="64" y="78" width="8" height="4" rx="2" fill="#00d4ff">
+                            <animate attributeName="opacity" values="1;0.3;1" dur="0.5s" repeatCount="indefinite"/>
+                        </rect>
+                        <rect x="76" y="78" width="8" height="4" rx="2" fill="#7c3aed">
+                            <animate attributeName="opacity" values="0.3;1;0.3" dur="0.5s" repeatCount="indefinite"/>
+                        </rect>
+
+                        <!-- Circuitos decorativos -->
+                        <circle cx="30" cy="40" r="2" fill="#00d4ff" opacity="0.5"/>
+                        <circle cx="90" cy="40" r="2" fill="#7c3aed" opacity="0.5"/>
+
                         <defs>
                             <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
                                 <stop offset="0%" style="stop-color:#00d4ff"/>
