@@ -143,7 +143,7 @@ body {
 ======================================== */
 .hero {
     background: var(--bg-dark);
-    padding: 180px 0 140px;
+    padding: 180px 0 120px;
     text-align: center;
     position: relative;
     overflow: hidden;
@@ -158,26 +158,63 @@ body {
     right: 0;
     bottom: 0;
     background-image:
-        linear-gradient(rgba(0, 212, 255, 0.07) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0, 212, 255, 0.07) 1px, transparent 1px);
-    background-size: 60px 60px;
-    mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 40%, transparent 100%);
-    -webkit-mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 40%, transparent 100%);
+        linear-gradient(rgba(0, 212, 255, 0.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 212, 255, 0.08) 1px, transparent 1px);
+    background-size: 50px 50px;
+    mask-image: radial-gradient(ellipse 70% 70% at 50% 40%, black 20%, transparent 70%);
+    -webkit-mask-image: radial-gradient(ellipse 70% 70% at 50% 40%, black 20%, transparent 70%);
     pointer-events: none;
+    animation: gridMove 20s linear infinite;
 }
 
-/* Glow orbs */
+@keyframes gridMove {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(50px); }
+}
+
+/* Glow orb principal */
 .hero::after {
     content: '';
     position: absolute;
-    top: 20%;
+    top: 15%;
     left: 50%;
     transform: translateX(-50%);
-    width: 600px;
-    height: 600px;
-    background: radial-gradient(circle, rgba(0, 212, 255, 0.12) 0%, rgba(124, 58, 237, 0.08) 50%, transparent 70%);
+    width: 700px;
+    height: 700px;
+    background: radial-gradient(circle, rgba(0, 212, 255, 0.15) 0%, rgba(124, 58, 237, 0.1) 40%, transparent 70%);
     pointer-events: none;
-    filter: blur(40px);
+    filter: blur(60px);
+}
+
+/* Orbs decorativos */
+.hero .orb {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+    filter: blur(60px);
+}
+
+.hero .orb-1 {
+    width: 300px;
+    height: 300px;
+    background: rgba(0, 212, 255, 0.1);
+    top: 10%;
+    left: 10%;
+    animation: float 8s ease-in-out infinite;
+}
+
+.hero .orb-2 {
+    width: 200px;
+    height: 200px;
+    background: rgba(124, 58, 237, 0.1);
+    bottom: 20%;
+    right: 15%;
+    animation: float 6s ease-in-out infinite reverse;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0) scale(1); }
+    50% { transform: translateY(-20px) scale(1.05); }
 }
 
 .hero .container {
@@ -248,6 +285,13 @@ body {
     background-clip: text;
 }
 
+.hero-title .text-gradient-alt {
+    background: linear-gradient(135deg, #f472b6 0%, #a855f7 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
 .hero-subtitle {
     font-size: 18px;
     color: var(--text-secondary);
@@ -262,48 +306,73 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 16px;
+    gap: 20px;
+}
+
+.hero-cta .btn svg {
+    transition: transform 0.3s ease;
+}
+
+.hero-cta .btn:hover svg {
+    transform: translateX(4px);
 }
 
 .hero-cta-hint {
-    font-size: 13px;
-    color: var(--text-muted);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: var(--accent-green);
+    font-weight: 500;
+}
+
+.hero-cta-hint svg {
+    stroke: var(--accent-green);
 }
 
 .hero-stats {
     display: flex;
     justify-content: center;
-    gap: 80px;
-    margin-top: 80px;
-    padding-top: 60px;
-    border-top: 1px solid var(--border-color);
-    max-width: 450px;
+    align-items: center;
+    gap: 48px;
+    margin-top: 72px;
+    padding: 32px 48px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-xl);
+    max-width: 420px;
     margin-left: auto;
     margin-right: auto;
 }
 
-.stat {
+.stat-card {
     text-align: center;
+}
+
+.stat-divider {
+    width: 1px;
+    height: 60px;
+    background: var(--border-color);
 }
 
 .stat-value {
     display: block;
-    font-size: 52px;
+    font-size: 48px;
     font-weight: 800;
     background: var(--gradient-cyan);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    letter-spacing: -3px;
+    letter-spacing: -2px;
     line-height: 1;
 }
 
 .stat-label {
-    font-size: 12px;
+    font-size: 11px;
     color: var(--text-muted);
-    margin-top: 12px;
+    margin-top: 8px;
     text-transform: uppercase;
-    letter-spacing: 2px;
+    letter-spacing: 1.5px;
     font-weight: 500;
 }
 
@@ -894,13 +963,17 @@ body {
     }
 
     .hero-stats {
-        gap: 48px;
-        padding-top: 48px;
-        margin-top: 60px;
+        gap: 32px;
+        padding: 24px 32px;
+        margin-top: 48px;
     }
 
     .stat-value {
-        font-size: 40px;
+        font-size: 36px;
+    }
+
+    .stat-divider {
+        height: 48px;
     }
 
     .section {
@@ -949,6 +1022,12 @@ body {
 
     .hero-stats {
         flex-direction: column;
-        gap: 32px;
+        gap: 24px;
+        padding: 24px;
+    }
+
+    .stat-divider {
+        width: 60px;
+        height: 1px;
     }
 }

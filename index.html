@@ -28,6 +28,8 @@
 
     <main>
         <section class="hero">
+            <div class="orb orb-1"></div>
+            <div class="orb orb-2"></div>
             <div class="container">
                 <div class="hero-icon">
                     <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -83,20 +85,32 @@
                     </svg>
                 </div>
                 <div class="hero-badge">Vagas Limitadas</div>
-                <h1 class="hero-title">Mini Curso de <span class="text-gradient">Inteligencia Artificial</span> para Programadores</h1>
-                <p class="hero-subtitle">Aprenda os fundamentos de IA e Machine Learning de forma pratica. Gratuito e exclusivo para alunos do IFMA.</p>
+                <h1 class="hero-title">Mini Curso de <span class="text-gradient">Inteligencia Artificial</span> para <span class="text-gradient-alt">Programadores</span></h1>
+                <p class="hero-subtitle">Domine os fundamentos de IA, Machine Learning e crie projetos reais. Exclusivo para alunos IFMA.</p>
                 <div class="hero-cta">
-                    <a href="#inscricao" class="btn btn-primary btn-lg">Garantir minha vaga</a>
-                    <span class="hero-cta-hint">Inscricao gratuita</span>
+                    <a href="#inscricao" class="btn btn-primary btn-lg">
+                        Garantir minha vaga
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                    </a>
+                    <div class="hero-cta-hint">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                            <polyline points="22 4 12 14.01 9 11.01"/>
+                        </svg>
+                        100% Gratuito
+                    </div>
                 </div>
                 <div class="hero-stats">
-                    <div class="stat">
+                    <div class="stat-card">
                         <span class="stat-value" id="total-inscritos">0</span>
                         <span class="stat-label">Inscritos</span>
                     </div>
-                    <div class="stat">
+                    <div class="stat-divider"></div>
+                    <div class="stat-card">
                         <span class="stat-value" id="vagas-disponiveis">--</span>
-                        <span class="stat-label">Vagas</span>
+                        <span class="stat-label">Vagas restantes</span>
                     </div>
                 </div>
             </div>
