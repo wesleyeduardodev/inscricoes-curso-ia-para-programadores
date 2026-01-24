@@ -1288,30 +1288,21 @@ body {
 }
 
 .instrutor-foto-landing {
-    width: 120px;
-    height: 120px;
+    width: 130px;
+    height: 130px;
     border-radius: 50%;
-    background: var(--gradient-cyan);
+    background: linear-gradient(135deg, rgba(132, 189, 0, 0.8), rgba(0, 212, 170, 0.8));
     padding: 3px;
     margin-bottom: 20px;
     position: relative;
-}
-
-.instrutor-foto-landing::before {
-    content: '';
-    position: absolute;
-    inset: -4px;
-    border-radius: 50%;
-    background: var(--gradient-cyan);
-    opacity: 0.3;
-    filter: blur(8px);
+    box-shadow: 0 0 20px rgba(132, 189, 0, 0.2);
 }
 
 .instrutor-foto-landing-inner {
     width: 100%;
     height: 100%;
     border-radius: 50%;
-    background: var(--bg-card);
+    background: #1a1a2e;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1322,6 +1313,7 @@ body {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    border-radius: 50%;
 }
 
 .instrutor-foto-landing-inner svg {
