@@ -666,6 +666,26 @@ body {
     min-width: 24px;
 }
 
+.modulo-instrutores {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    font-size: 13px;
+    color: var(--accent-cyan);
+}
+
+.modulo-instrutores svg {
+    flex-shrink: 0;
+    opacity: 0.8;
+}
+
+.modulo-instrutores span {
+    font-weight: 500;
+}
+
 /* ========================================
    INFO CARDS
 ======================================== */
