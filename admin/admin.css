@@ -426,19 +426,67 @@ body {
 }
 
 .nav-btn:hover {
-    color: var(--text-secondary);
+    color: var(--text-primary);
+    background: var(--bg-primary);
 }
 
 .nav-btn.active {
-    color: var(--accent-primary);
-    border-bottom-color: var(--accent-primary);
+    color: var(--text-primary);
+    font-weight: 600;
+    background: linear-gradient(to bottom, transparent 0%, rgba(132, 189, 0, 0.08) 100%);
+}
+
+/* Borda colorida baseada no menu ativo */
+.nav-btn.active[data-tab="dashboard"] {
+    border-bottom-color: #3b82f6;
+}
+
+.nav-btn.active[data-tab="evento"] {
+    border-bottom-color: #8b5cf6;
+}
+
+.nav-btn.active[data-tab="modulos"] {
+    border-bottom-color: #f59e0b;
+}
+
+.nav-btn.active[data-tab="inscricoes"] {
+    border-bottom-color: #10b981;
 }
 
 .nav-btn svg {
-    width: 18px;
-    height: 18px;
+    width: 20px;
+    height: 20px;
     stroke-width: 2;
+    transition: var(--transition);
 }
+
+/* Cores dos ícones do menu */
+.nav-btn[data-tab="dashboard"] svg {
+    stroke: #3b82f6;
+}
+
+.nav-btn[data-tab="evento"] svg {
+    stroke: #8b5cf6;
+}
+
+.nav-btn[data-tab="modulos"] svg {
+    stroke: #f59e0b;
+}
+
+.nav-btn[data-tab="inscricoes"] svg {
+    stroke: #10b981;
+}
+
+/* Hover - ícones mais intensos */
+.nav-btn:hover svg {
+    transform: scale(1.1);
+}
+
+/* Ativo - manter cor do ícone */
+.nav-btn.active[data-tab="dashboard"] svg { stroke: #3b82f6; }
+.nav-btn.active[data-tab="evento"] svg { stroke: #8b5cf6; }
+.nav-btn.active[data-tab="modulos"] svg { stroke: #f59e0b; }
+.nav-btn.active[data-tab="inscricoes"] svg { stroke: #10b981; }
 
 /* ========================================
    MAIN CONTENT
