@@ -908,6 +908,22 @@ function escapeHtml(text) {
     return div.innerHTML;
 }
 
+function togglePassword() {
+    const input = document.getElementById('login-password');
+    const eyeOpen = document.querySelector('.password-toggle .eye-open');
+    const eyeClosed = document.querySelector('.password-toggle .eye-closed');
+
+    if (input.type === 'password') {
+        input.type = 'text';
+        eyeOpen.style.display = 'none';
+        eyeClosed.style.display = 'block';
+    } else {
+        input.type = 'password';
+        eyeOpen.style.display = 'block';
+        eyeClosed.style.display = 'none';
+    }
+}
+
 // ========================================
 // INSTRUTORES
 // ========================================
