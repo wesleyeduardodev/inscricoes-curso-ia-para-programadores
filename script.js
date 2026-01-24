@@ -3,6 +3,7 @@ const API_BASE_URL = 'http://localhost:8090/api/minicurso';
 document.addEventListener('DOMContentLoaded', () => {
     carregarEvento();
     carregarContador();
+    carregarInstrutores();
     setupFormulario();
     setupCharCounter();
 });
@@ -307,4 +308,83 @@ function escapeHtml(text) {
     const div = document.createElement('div');
     div.textContent = text;
     return div.innerHTML;
+}
+
+async function carregarInstrutores() {
+    try {
+        const response = await fetch(`${API_BASE_URL}/instrutores`);
+        if (!response.ok) {
+            throw new Error('Erro ao carregar instrutores');
+        }
+
+        const instrutores = await response.json();
+        renderizarInstrutores(instrutores);
+    } catch (error) {
+        console.error('Erro ao carregar instrutores:', error);
+        document.getElementById('instrutores-container').innerHTML =
+            '<p class="no-instrutores">Informacoes sobre instrutores em breve.</p>';
+    }
+}
+
+function renderizarInstrutores(instrutores) {
+    const container = document.getElementById('instrutores-container');
+
+    if (!instrutores || instrutores.length === 0) {
+        container.innerHTML = '<p class="no-instrutores">Informacoes sobre instrutores em breve.</p>';
+        return;
+    }
+
+    container.innerHTML = instrutores.map(instrutor => `
+        <div class="instrutor-card-landing">
+            <div class="instrutor-card-landing-header">
+                <div class="instrutor-foto-landing">
+                    <div class="instrutor-foto-landing-inner">
+                        ${instrutor.fotoUrl
+                            ? `<img src="${escapeHtml(instrutor.fotoUrl)}" alt="${escapeHtml(instrutor.nome)}">`
+                            : `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>`
+                        }
+                    </div>
+                </div>
+                <h3 class="instrutor-nome-landing">${escapeHtml(instrutor.nome)}</h3>
+                ${instrutor.localTrabalho ? `
+                    <div class="instrutor-local-landing">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                            <circle cx="12" cy="10" r="3"/>
+                        </svg>
+                        ${escapeHtml(instrutor.localTrabalho)}
+                    </div>
+                ` : ''}
+                ${instrutor.tempoCarreira ? `
+                    <div class="instrutor-tempo-landing">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <polyline points="12 6 12 12 16 14"/>
+                        </svg>
+                        ${escapeHtml(instrutor.tempoCarreira)}
+                    </div>
+                ` : ''}
+            </div>
+            <div class="instrutor-card-landing-body">
+                ${instrutor.miniBio ? `<p class="instrutor-bio-landing">${escapeHtml(instrutor.miniBio)}</p>` : ''}
+                ${instrutor.modulos && instrutor.modulos.length > 0 ? `
+                    <div class="instrutor-modulos-landing">
+                        ${instrutor.modulos.map(m => `<span class="instrutor-modulo-tag">${escapeHtml(m.titulo)}</span>`).join('')}
+                    </div>
+                ` : `
+                    <div class="instrutor-modulos-landing">
+                        <span class="instrutor-modulo-tag instrutor-geral-tag">Instrutor Geral</span>
+                    </div>
+                `}
+                ${instrutor.linkedin ? `
+                    <a href="${escapeHtml(instrutor.linkedin)}" target="_blank" rel="noopener" class="instrutor-linkedin-landing">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                        </svg>
+                        Ver no LinkedIn
+                    </a>
+                ` : ''}
+            </div>
+        </div>
+    `).join('');
 }

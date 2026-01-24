@@ -1219,6 +1219,211 @@ body {
     }
 }
 
+/* ========================================
+   INSTRUTORES SECTION
+======================================== */
+.instrutores-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 24px;
+}
+
+.instrutor-card-landing {
+    background: var(--bg-card);
+    border-radius: var(--border-radius-xl);
+    border: 1px solid var(--border-color);
+    overflow: hidden;
+    transition: var(--transition);
+    position: relative;
+}
+
+.instrutor-card-landing:hover {
+    border-color: var(--border-hover);
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+.instrutor-card-landing::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--gradient-cyan);
+    opacity: 0;
+    transition: var(--transition);
+}
+
+.instrutor-card-landing:hover::before {
+    opacity: 1;
+}
+
+.instrutor-card-landing-header {
+    padding: 32px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: linear-gradient(180deg, rgba(0, 212, 255, 0.05) 0%, transparent 100%);
+}
+
+.instrutor-foto-landing {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: var(--gradient-cyan);
+    padding: 3px;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.instrutor-foto-landing::before {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    border-radius: 50%;
+    background: var(--gradient-cyan);
+    opacity: 0.3;
+    filter: blur(8px);
+}
+
+.instrutor-foto-landing-inner {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: var(--bg-card);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.instrutor-foto-landing-inner img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.instrutor-foto-landing-inner svg {
+    width: 50px;
+    height: 50px;
+    stroke: var(--text-muted);
+}
+
+.instrutor-nome-landing {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+    text-align: center;
+}
+
+.instrutor-local-landing {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin-bottom: 8px;
+}
+
+.instrutor-local-landing svg {
+    width: 16px;
+    height: 16px;
+    stroke: var(--accent-cyan);
+    flex-shrink: 0;
+}
+
+.instrutor-tempo-landing {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 6px 14px;
+    background: rgba(132, 189, 0, 0.1);
+    border: 1px solid rgba(132, 189, 0, 0.2);
+    border-radius: 20px;
+    color: var(--accent-green);
+}
+
+.instrutor-card-landing-body {
+    padding: 0 24px 24px;
+}
+
+.instrutor-bio-landing {
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.7;
+    text-align: center;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.instrutor-modulos-landing {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border-color);
+}
+
+.instrutor-modulo-tag {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 6px 12px;
+    background: rgba(124, 58, 237, 0.1);
+    border: 1px solid rgba(124, 58, 237, 0.2);
+    border-radius: 6px;
+    color: var(--accent-purple);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.instrutor-geral-tag {
+    background: rgba(0, 212, 255, 0.1);
+    border-color: rgba(0, 212, 255, 0.2);
+    color: var(--accent-cyan);
+}
+
+.instrutor-linkedin-landing {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 16px;
+    padding: 10px 20px;
+    background: rgba(0, 119, 181, 0.1);
+    border: 1px solid rgba(0, 119, 181, 0.2);
+    border-radius: var(--border-radius);
+    color: #0077b5;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.instrutor-linkedin-landing:hover {
+    background: rgba(0, 119, 181, 0.2);
+    transform: translateY(-2px);
+}
+
+.instrutor-linkedin-landing svg {
+    width: 18px;
+    height: 18px;
+}
+
+.no-instrutores {
+    text-align: center;
+    color: var(--text-muted);
+    padding: 60px 20px;
+    font-size: 16px;
+}
+
 @media (max-width: 768px) {
     .container {
         padding: 0 20px;

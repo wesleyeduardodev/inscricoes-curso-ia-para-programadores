@@ -81,6 +81,13 @@
                 </svg>
                 Modulos
             </button>
+            <button class="nav-btn" data-tab="instrutores">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                    <circle cx="12" cy="7" r="4"/>
+                </svg>
+                Instrutores
+            </button>
             <button class="nav-btn" data-tab="inscricoes">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
@@ -279,6 +286,22 @@
                 </div>
                 <div id="modulos-list" class="modulos-list">
                     <p class="empty-message">Carregando modulos...</p>
+                </div>
+            </section>
+
+            <section id="tab-instrutores" class="tab-content">
+                <div class="section-header">
+                    <h2>Instrutores</h2>
+                    <button id="btn-novo-instrutor" class="btn btn-primary">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="12" y1="5" x2="12" y2="19"/>
+                            <line x1="5" y1="12" x2="19" y2="12"/>
+                        </svg>
+                        Novo Instrutor
+                    </button>
+                </div>
+                <div id="instrutores-grid" class="instrutores-grid">
+                    <p class="empty-message">Carregando instrutores...</p>
                 </div>
             </section>
 
@@ -520,6 +543,23 @@
                     </div>
                 </div>
 
+                <!-- Seção: Instrutores -->
+                <div class="modal-section">
+                    <div class="modal-section-header">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                            <circle cx="12" cy="7" r="4"/>
+                        </svg>
+                        <span>Instrutores do Modulo</span>
+                    </div>
+                    <div class="modal-section-content">
+                        <p class="section-hint">Selecione os instrutores que irao ministrar este modulo.</p>
+                        <div id="instrutores-checkboxes" class="modulos-checkboxes">
+                            <p class="empty-message">Carregando instrutores...</p>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="modal-actions-styled">
                     <button type="button" class="btn btn-secondary" onclick="fecharModalModulo()">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -670,6 +710,179 @@
                     Excluir
                 </button>
             </div>
+        </div>
+    </div>
+
+    <!-- Modal Instrutor -->
+    <div id="modal-instrutor" class="modal" style="display: none;">
+        <div class="modal-content modal-sectioned modal-lg">
+            <div class="modal-header-styled">
+                <div class="modal-header-icon instrutor-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                        <circle cx="12" cy="7" r="4"/>
+                    </svg>
+                </div>
+                <div class="modal-header-text">
+                    <h3 id="modal-instrutor-title">Novo Instrutor</h3>
+                    <p>Configure as informacoes do instrutor</p>
+                </div>
+                <button class="modal-close-btn" onclick="fecharModalInstrutor()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+                    </svg>
+                </button>
+            </div>
+            <form id="form-instrutor" class="modal-form-sectioned">
+                <input type="hidden" id="instrutor-id">
+
+                <!-- Seção: Foto de Perfil -->
+                <div class="modal-section">
+                    <div class="modal-section-header">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                            <circle cx="8.5" cy="8.5" r="1.5"/>
+                            <polyline points="21 15 16 10 5 21"/>
+                        </svg>
+                        <span>Foto de Perfil</span>
+                    </div>
+                    <div class="modal-section-content">
+                        <div class="foto-upload-container">
+                            <div class="foto-preview" id="foto-preview">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                                    <circle cx="12" cy="7" r="4"/>
+                                </svg>
+                            </div>
+                            <div class="foto-actions">
+                                <input type="file" id="instrutor-foto" accept="image/jpeg,image/png,image/webp" style="display: none;">
+                                <button type="button" class="btn btn-secondary btn-sm" onclick="document.getElementById('instrutor-foto').click()">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                                        <polyline points="17 8 12 3 7 8"/>
+                                        <line x1="12" y1="3" x2="12" y2="15"/>
+                                    </svg>
+                                    Escolher Foto
+                                </button>
+                                <button type="button" class="btn btn-ghost btn-sm" id="btn-remover-foto" style="display: none;" onclick="removerFotoPreview()">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <polyline points="3 6 5 6 21 6"/>
+                                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                                    </svg>
+                                    Remover
+                                </button>
+                                <p class="foto-hint">JPEG, PNG ou WebP. Max 2MB.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Seção: Informações Pessoais -->
+                <div class="modal-section">
+                    <div class="modal-section-header">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                            <circle cx="12" cy="7" r="4"/>
+                        </svg>
+                        <span>Informacoes Pessoais</span>
+                    </div>
+                    <div class="modal-section-content">
+                        <div class="form-group">
+                            <label for="instrutor-nome">Nome Completo *</label>
+                            <input type="text" id="instrutor-nome" required maxlength="150" placeholder="Ex: Prof. Dr. Joao Silva">
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="instrutor-email">Email</label>
+                                <input type="email" id="instrutor-email" maxlength="150" placeholder="joao.silva@ifma.edu.br">
+                            </div>
+                            <div class="form-group">
+                                <label for="instrutor-linkedin">LinkedIn</label>
+                                <input type="url" id="instrutor-linkedin" maxlength="200" placeholder="https://linkedin.com/in/...">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Seção: Informações Profissionais -->
+                <div class="modal-section">
+                    <div class="modal-section-header">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
+                            <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
+                        </svg>
+                        <span>Informacoes Profissionais</span>
+                    </div>
+                    <div class="modal-section-content">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="instrutor-local">Local de Trabalho</label>
+                                <input type="text" id="instrutor-local" maxlength="200" placeholder="Ex: IFMA - Campus Imperatriz">
+                            </div>
+                            <div class="form-group">
+                                <label for="instrutor-tempo">Tempo de Carreira</label>
+                                <input type="text" id="instrutor-tempo" maxlength="50" placeholder="Ex: 10 anos de experiencia">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Seção: Mini Bio -->
+                <div class="modal-section">
+                    <div class="modal-section-header">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                            <polyline points="14 2 14 8 20 8"/>
+                            <line x1="16" y1="13" x2="8" y2="13"/>
+                            <line x1="16" y1="17" x2="8" y2="17"/>
+                        </svg>
+                        <span>Mini Bio</span>
+                    </div>
+                    <div class="modal-section-content">
+                        <div class="form-group">
+                            <label for="instrutor-bio">Biografia</label>
+                            <textarea id="instrutor-bio" rows="3" maxlength="1000" placeholder="Breve descricao sobre a formacao e experiencia do instrutor..."></textarea>
+                            <p class="char-count"><span id="bio-count">0</span>/1000 caracteres</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Seção: Status -->
+                <div class="modal-section">
+                    <div class="modal-section-header">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                            <polyline points="22 4 12 14.01 9 11.01"/>
+                        </svg>
+                        <span>Status</span>
+                    </div>
+                    <div class="modal-section-content">
+                        <label class="toggle-switch toggle-sm">
+                            <input type="checkbox" id="instrutor-ativo" checked>
+                            <span class="toggle-slider"></span>
+                            <span class="toggle-label">Instrutor Ativo</span>
+                        </label>
+                        <p class="toggle-hint-inline">Instrutores inativos nao aparecem na landing page</p>
+                    </div>
+                </div>
+
+                <div class="modal-actions-styled">
+                    <button type="button" class="btn btn-secondary" onclick="fecharModalInstrutor()">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+                        </svg>
+                        Cancelar
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/>
+                            <polyline points="17 21 17 13 7 13 7 21"/>
+                            <polyline points="7 3 7 8 15 8"/>
+                        </svg>
+                        Salvar Instrutor
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 

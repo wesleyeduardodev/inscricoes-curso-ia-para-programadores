@@ -5,6 +5,9 @@ const MINICURSO_URL = `${API_BASE_URL}/minicurso`;
 let currentToken = null;
 let currentUser = null;
 let eventoData = null;
+let allInstrutores = [];
+let allModulosForInstrutor = [];
+let selectedFotoFile = null;
 
 // ========================================
 // TOAST NOTIFICATIONS
@@ -98,6 +101,12 @@ function setupEventListeners() {
     document.getElementById('filter-curso-mobile').addEventListener('input', applyFiltersMobile);
     document.getElementById('filter-nivel-mobile').addEventListener('change', applyFiltersMobile);
     document.getElementById('btn-clear-filters-mobile').addEventListener('click', clearFiltersMobile);
+
+    // Instrutores
+    document.getElementById('btn-novo-instrutor').addEventListener('click', () => abrirModalInstrutor());
+    document.getElementById('form-instrutor').addEventListener('submit', handleSaveInstrutor);
+    document.getElementById('instrutor-foto').addEventListener('change', handleFotoSelect);
+    document.getElementById('instrutor-bio').addEventListener('input', updateBioCount);
 }
 
 async function handleLogin(e) {
@@ -184,6 +193,9 @@ function switchTab(tabId) {
             break;
         case 'modulos':
             loadModulos();
+            break;
+        case 'instrutores':
+            loadInstrutores();
             break;
         case 'inscricoes':
             loadInscricoes();
@@ -361,7 +373,9 @@ function renderModulos(modulos) {
     `).join('');
 }
 
-function abrirModalModulo(modulo = null) {
+async function abrirModalModulo(modulo = null) {
+    await loadInstrutoresForModulo();
+
     document.getElementById('modal-modulo-title').textContent = modulo ? 'Editar Modulo' : 'Novo Modulo';
     document.getElementById('modulo-id').value = modulo ? modulo.id : '';
     document.getElementById('modulo-titulo').value = modulo ? modulo.titulo : '';
@@ -369,6 +383,11 @@ function abrirModalModulo(modulo = null) {
     document.getElementById('modulo-ordem').value = modulo ? modulo.ordem : '';
     document.getElementById('modulo-carga').value = modulo ? modulo.cargaHoraria || '' : '';
     document.getElementById('modulo-ativo').checked = modulo ? modulo.ativo : true;
+
+    // Instrutores selecionados
+    const selectedInstrutoresIds = modulo && modulo.instrutores ? modulo.instrutores.map(i => i.id) : [];
+    renderInstrutoresCheckboxes(selectedInstrutoresIds);
+
     document.getElementById('modal-modulo').style.display = 'flex';
 }
 
@@ -396,13 +415,21 @@ async function handleSaveModulo(e) {
     e.preventDefault();
 
     const id = document.getElementById('modulo-id').value;
+
+    // Coletar IDs dos instrutores selecionados
+    const instrutoresIds = [];
+    document.querySelectorAll('#instrutores-checkboxes input[type="checkbox"]:checked').forEach(cb => {
+        instrutoresIds.push(parseInt(cb.value));
+    });
+
     const data = {
         titulo: document.getElementById('modulo-titulo').value,
         descricao: document.getElementById('modulo-descricao').value || null,
         ordem: parseInt(document.getElementById('modulo-ordem').value),
         cargaHoraria: document.getElementById('modulo-carga').value ?
             parseInt(document.getElementById('modulo-carga').value) : null,
-        ativo: document.getElementById('modulo-ativo').checked
+        ativo: document.getElementById('modulo-ativo').checked,
+        instrutoresIds: instrutoresIds
     };
 
     try {
@@ -871,4 +898,321 @@ function escapeHtml(text) {
     const div = document.createElement('div');
     div.textContent = text;
     return div.innerHTML;
+}
+
+// ========================================
+// INSTRUTORES
+// ========================================
+
+async function loadInstrutores() {
+    const container = document.getElementById('instrutores-grid');
+    container.innerHTML = '<p class="empty-message">Carregando instrutores...</p>';
+
+    try {
+        const response = await apiRequest(`${MINICURSO_URL}/admin/instrutores`);
+        if (response.ok) {
+            allInstrutores = await response.json();
+            renderInstrutores();
+        } else {
+            container.innerHTML = '<p class="empty-message">Erro ao carregar instrutores.</p>';
+        }
+    } catch (error) {
+        console.error('Erro ao carregar instrutores:', error);
+        container.innerHTML = '<p class="empty-message">Erro ao carregar instrutores.</p>';
+    }
+}
+
+function renderInstrutores() {
+    const container = document.getElementById('instrutores-grid');
+
+    if (allInstrutores.length === 0) {
+        container.innerHTML = '<p class="empty-message">Nenhum instrutor cadastrado.</p>';
+        return;
+    }
+
+    container.innerHTML = allInstrutores.map(instrutor => `
+        <div class="instrutor-card">
+            <div class="instrutor-card-header">
+                <div class="instrutor-foto">
+                    ${instrutor.fotoUrl
+                        ? `<img src="${escapeHtml(instrutor.fotoUrl)}" alt="${escapeHtml(instrutor.nome)}">`
+                        : `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>`
+                    }
+                </div>
+                <div class="instrutor-card-info">
+                    <div class="instrutor-card-nome">${escapeHtml(instrutor.nome)}</div>
+                    <div class="instrutor-card-local">
+                        ${instrutor.localTrabalho ? `
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                            ${escapeHtml(instrutor.localTrabalho)}
+                        ` : ''}
+                    </div>
+                </div>
+            </div>
+            <div class="instrutor-card-body">
+                <div class="instrutor-card-bio">${escapeHtml(instrutor.miniBio || 'Sem biografia')}</div>
+                ${instrutor.modulos && instrutor.modulos.length > 0 ? `
+                    <div class="instrutor-card-modulos">
+                        ${instrutor.modulos.map(m => `<span class="instrutor-modulo-badge">${escapeHtml(m.titulo)}</span>`).join('')}
+                    </div>
+                ` : '<div class="instrutor-card-modulos"><span class="instrutor-modulo-badge" style="background: rgba(139, 92, 246, 0.1); color: #8b5cf6;">Instrutor Geral</span></div>'}
+            </div>
+            <div class="instrutor-card-footer">
+                <span class="instrutor-status ${instrutor.ativo ? 'ativo' : 'inativo'}">
+                    ${instrutor.ativo ? 'Ativo' : 'Inativo'}
+                </span>
+                <div class="instrutor-card-actions">
+                    <button class="btn btn-sm btn-outline" onclick="editarInstrutor(${instrutor.id})">Editar</button>
+                    <button class="btn btn-sm btn-danger" onclick="confirmarExcluirInstrutor(${instrutor.id})">Excluir</button>
+                </div>
+            </div>
+        </div>
+    `).join('');
+}
+
+async function loadModulosForInstrutor() {
+    try {
+        const response = await fetch(`${MINICURSO_URL}/evento`);
+        if (response.ok) {
+            const text = await response.text();
+            const evento = text ? JSON.parse(text) : null;
+            allModulosForInstrutor = evento && evento.modulos ? evento.modulos : [];
+        }
+    } catch (error) {
+        console.error('Erro ao carregar modulos:', error);
+        allModulosForInstrutor = [];
+    }
+}
+
+function renderModulosCheckboxes(selectedIds = []) {
+    const container = document.getElementById('modulos-checkboxes');
+
+    if (allModulosForInstrutor.length === 0) {
+        container.innerHTML = '<p class="empty-message">Nenhum modulo cadastrado.</p>';
+        return;
+    }
+
+    container.innerHTML = allModulosForInstrutor.map(modulo => `
+        <label class="modulo-checkbox">
+            <input type="checkbox" name="modulos" value="${modulo.id}" ${selectedIds.includes(modulo.id) ? 'checked' : ''}>
+            <span class="modulo-checkbox-label">${escapeHtml(modulo.titulo)}</span>
+        </label>
+    `).join('');
+}
+
+let allInstrutoresForModulo = [];
+
+async function loadInstrutoresForModulo() {
+    try {
+        const response = await apiRequest(`${MINICURSO_URL}/admin/instrutores`);
+        if (response.ok) {
+            allInstrutoresForModulo = await response.json();
+        }
+    } catch (error) {
+        console.error('Erro ao carregar instrutores:', error);
+        allInstrutoresForModulo = [];
+    }
+}
+
+function renderInstrutoresCheckboxes(selectedIds = []) {
+    const container = document.getElementById('instrutores-checkboxes');
+
+    if (allInstrutoresForModulo.length === 0) {
+        container.innerHTML = '<p class="empty-message">Nenhum instrutor cadastrado.</p>';
+        return;
+    }
+
+    container.innerHTML = allInstrutoresForModulo.map(instrutor => `
+        <label class="modulo-checkbox">
+            <input type="checkbox" name="instrutores" value="${instrutor.id}" ${selectedIds.includes(instrutor.id) ? 'checked' : ''}>
+            <span class="modulo-checkbox-label">${escapeHtml(instrutor.nome)}</span>
+        </label>
+    `).join('');
+}
+
+async function abrirModalInstrutor(instrutor = null) {
+    document.getElementById('modal-instrutor-title').textContent = instrutor ? 'Editar Instrutor' : 'Novo Instrutor';
+    document.getElementById('instrutor-id').value = instrutor ? instrutor.id : '';
+    document.getElementById('instrutor-nome').value = instrutor ? instrutor.nome : '';
+    document.getElementById('instrutor-email').value = instrutor ? instrutor.email || '' : '';
+    document.getElementById('instrutor-linkedin').value = instrutor ? instrutor.linkedin || '' : '';
+    document.getElementById('instrutor-local').value = instrutor ? instrutor.localTrabalho || '' : '';
+    document.getElementById('instrutor-tempo').value = instrutor ? instrutor.tempoCarreira || '' : '';
+    document.getElementById('instrutor-bio').value = instrutor ? instrutor.miniBio || '' : '';
+    document.getElementById('instrutor-ativo').checked = instrutor ? instrutor.ativo : true;
+
+    // Foto
+    const fotoPreview = document.getElementById('foto-preview');
+    const btnRemoverFoto = document.getElementById('btn-remover-foto');
+    selectedFotoFile = null;
+
+    if (instrutor && instrutor.fotoUrl) {
+        fotoPreview.innerHTML = `<img src="${escapeHtml(instrutor.fotoUrl)}" alt="Foto">`;
+        btnRemoverFoto.style.display = 'inline-flex';
+    } else {
+        fotoPreview.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>`;
+        btnRemoverFoto.style.display = 'none';
+    }
+
+    // Bio count
+    updateBioCount();
+
+    document.getElementById('modal-instrutor').style.display = 'flex';
+}
+
+function fecharModalInstrutor() {
+    document.getElementById('modal-instrutor').style.display = 'none';
+    document.getElementById('form-instrutor').reset();
+    selectedFotoFile = null;
+}
+
+async function editarInstrutor(id) {
+    try {
+        const response = await apiRequest(`${MINICURSO_URL}/admin/instrutores/${id}`);
+        if (response.ok) {
+            const instrutor = await response.json();
+            abrirModalInstrutor(instrutor);
+        }
+    } catch (error) {
+        console.error('Erro ao carregar instrutor:', error);
+        showToast('Erro ao carregar dados do instrutor', 'error');
+    }
+}
+
+function handleFotoSelect(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    // Validar tipo
+    if (!['image/jpeg', 'image/png', 'image/webp'].includes(file.type)) {
+        showToast('Formato invalido. Use JPEG, PNG ou WebP.', 'error');
+        e.target.value = '';
+        return;
+    }
+
+    // Validar tamanho (2MB)
+    if (file.size > 2 * 1024 * 1024) {
+        showToast('Arquivo muito grande. Maximo 2MB.', 'error');
+        e.target.value = '';
+        return;
+    }
+
+    selectedFotoFile = file;
+
+    // Preview
+    const reader = new FileReader();
+    reader.onload = (e) => {
+        document.getElementById('foto-preview').innerHTML = `<img src="${e.target.result}" alt="Preview">`;
+        document.getElementById('btn-remover-foto').style.display = 'inline-flex';
+    };
+    reader.readAsDataURL(file);
+}
+
+function removerFotoPreview() {
+    document.getElementById('foto-preview').innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>`;
+    document.getElementById('btn-remover-foto').style.display = 'none';
+    document.getElementById('instrutor-foto').value = '';
+    selectedFotoFile = null;
+}
+
+function updateBioCount() {
+    const bio = document.getElementById('instrutor-bio').value;
+    document.getElementById('bio-count').textContent = bio.length;
+}
+
+async function handleSaveInstrutor(e) {
+    e.preventDefault();
+
+    const id = document.getElementById('instrutor-id').value;
+
+    const data = {
+        nome: document.getElementById('instrutor-nome').value,
+        email: document.getElementById('instrutor-email').value || null,
+        linkedin: document.getElementById('instrutor-linkedin').value || null,
+        localTrabalho: document.getElementById('instrutor-local').value || null,
+        tempoCarreira: document.getElementById('instrutor-tempo').value || null,
+        miniBio: document.getElementById('instrutor-bio').value || null,
+        ativo: document.getElementById('instrutor-ativo').checked
+    };
+
+    try {
+        // Salvar instrutor
+        const url = id ? `${MINICURSO_URL}/admin/instrutores/${id}` : `${MINICURSO_URL}/admin/instrutores`;
+        const method = id ? 'PUT' : 'POST';
+
+        const response = await apiRequest(url, {
+            method,
+            body: JSON.stringify(data)
+        });
+
+        if (response.ok) {
+            const savedInstrutor = await response.json();
+
+            // Upload de foto se houver
+            if (selectedFotoFile) {
+                await uploadFotoInstrutor(savedInstrutor.id);
+            }
+
+            fecharModalInstrutor();
+            loadInstrutores();
+            showToast('Instrutor salvo com sucesso!');
+        } else {
+            const error = await response.json();
+            showToast(error.message || 'Erro ao salvar instrutor', 'error');
+        }
+    } catch (error) {
+        console.error('Erro:', error);
+        showToast('Erro ao salvar instrutor', 'error');
+    }
+}
+
+async function uploadFotoInstrutor(instrutorId) {
+    if (!selectedFotoFile) return;
+
+    const formData = new FormData();
+    formData.append('foto', selectedFotoFile);
+
+    try {
+        const response = await fetch(`${MINICURSO_URL}/admin/instrutores/${instrutorId}/foto`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${currentToken}`
+            },
+            body: formData
+        });
+
+        if (!response.ok) {
+            showToast('Erro ao fazer upload da foto', 'warning');
+        }
+    } catch (error) {
+        console.error('Erro no upload:', error);
+        showToast('Erro ao fazer upload da foto', 'warning');
+    }
+}
+
+function confirmarExcluirInstrutor(id) {
+    document.getElementById('confirm-title').textContent = 'Excluir Instrutor';
+    document.getElementById('confirm-message').textContent =
+        'Tem certeza que deseja excluir este instrutor? Esta acao nao pode ser desfeita.';
+    document.getElementById('btn-confirm-action').onclick = () => excluirInstrutor(id);
+    document.getElementById('modal-confirm').style.display = 'flex';
+}
+
+async function excluirInstrutor(id) {
+    try {
+        const response = await apiRequest(`${MINICURSO_URL}/admin/instrutores/${id}`, {
+            method: 'DELETE'
+        });
+
+        if (response.ok) {
+            fecharModalConfirm();
+            loadInstrutores();
+            showToast('Instrutor excluido com sucesso!');
+        } else {
+            showToast('Erro ao excluir instrutor', 'error');
+        }
+    } catch (error) {
+        console.error('Erro:', error);
+        showToast('Erro ao excluir instrutor', 'error');
+    }
 }
