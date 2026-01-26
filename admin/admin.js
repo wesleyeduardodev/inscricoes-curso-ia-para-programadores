@@ -1,6 +1,6 @@
-const API_BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-    ? 'http://localhost:8090/api'
-    : 'https://devquote.com.br/api';
+//const API_BASE_URL = 'https://devquote.com.br/api';
+const API_BASE_URL = 'http://localhost:8090/api';
+
 const AUTH_URL = `${API_BASE_URL}/auth`;
 const MINICURSO_URL = `${API_BASE_URL}/minicurso`;
 
@@ -84,6 +84,7 @@ function setupEventListeners() {
     document.getElementById('form-modulo').addEventListener('submit', handleSaveModulo);
     document.getElementById('form-item').addEventListener('submit', handleSaveItem);
     document.getElementById('btn-export').addEventListener('click', handleExport);
+    document.getElementById('btn-export-pdf').addEventListener('click', handleExportPdf);
     document.getElementById('items-per-page').addEventListener('change', handleItemsPerPageChange);
     document.getElementById('btn-first-page').addEventListener('click', handleFirstPage);
     document.getElementById('btn-prev-page').addEventListener('click', handlePrevPage);
@@ -895,6 +896,30 @@ async function handleExport() {
     } catch (error) {
         console.error('Erro:', error);
         showToast('Erro ao exportar inscricoes', 'error');
+    }
+}
+
+async function handleExportPdf() {
+    try {
+        const response = await apiRequest(`${MINICURSO_URL}/inscricoes/export-pdf`);
+
+        if (response.ok) {
+            const blob = await response.blob();
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `inscricoes_${new Date().toISOString().slice(0, 10)}.pdf`;
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+            a.remove();
+            showToast('PDF exportado com sucesso!');
+        } else {
+            showToast('Erro ao exportar PDF', 'error');
+        }
+    } catch (error) {
+        console.error('Erro:', error);
+        showToast('Erro ao exportar PDF', 'error');
     }
 }
 

@@ -1,6 +1,5 @@
-const API_BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-    ? 'http://localhost:8090/api/minicurso'
-    : 'https://devquote.com.br/api/minicurso';
+//const API_BASE_URL = 'https://devquote.com.br/api/minicurso';
+const API_BASE_URL = 'http://localhost:8090/api/minicurso';
 
 document.addEventListener('DOMContentLoaded', () => {
     carregarEvento();
