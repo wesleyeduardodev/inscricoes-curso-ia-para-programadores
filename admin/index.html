@@ -916,22 +916,30 @@
                     </div>
                 </div>
 
-                <!-- Seção: Status -->
+                <!-- Seção: Configurações -->
                 <div class="modal-section">
                     <div class="modal-section-header">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
-                            <polyline points="22 4 12 14.01 9 11.01"/>
+                            <circle cx="12" cy="12" r="3"/>
+                            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
                         </svg>
-                        <span>Status</span>
+                        <span>Configuracoes</span>
                     </div>
                     <div class="modal-section-content">
-                        <label class="toggle-switch toggle-sm">
-                            <input type="checkbox" id="instrutor-ativo" checked>
-                            <span class="toggle-slider"></span>
-                            <span class="toggle-label">Instrutor Ativo</span>
-                        </label>
-                        <p class="toggle-hint-inline">Instrutores inativos nao aparecem na landing page</p>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="instrutor-ordem">Ordem de Exibicao</label>
+                                <input type="number" id="instrutor-ordem" min="1" placeholder="1">
+                                <p class="toggle-hint-inline">Define a ordem de exibicao na landing page</p>
+                            </div>
+                            <div class="form-group" style="display: flex; align-items: center; padding-top: 24px;">
+                                <label class="toggle-switch toggle-sm">
+                                    <input type="checkbox" id="instrutor-ativo" checked>
+                                    <span class="toggle-slider"></span>
+                                    <span class="toggle-label">Instrutor Ativo</span>
+                                </label>
+                            </div>
+                        </div>
                     </div>
                 </div>
 

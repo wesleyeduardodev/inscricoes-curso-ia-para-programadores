@@ -1,5 +1,5 @@
-//const API_BASE_URL = 'https://devquote.com.br/api';
-const API_BASE_URL = 'http://localhost:8090/api';
+const API_BASE_URL = 'https://devquote.com.br/api';
+//const API_BASE_URL = 'http://localhost:8090/api';
 
 const AUTH_URL = `${API_BASE_URL}/auth`;
 const MINICURSO_URL = `${API_BASE_URL}/minicurso`;
@@ -985,6 +985,7 @@ function renderInstrutores() {
     container.innerHTML = allInstrutores.map(instrutor => `
         <div class="instrutor-card">
             <div class="instrutor-card-header">
+                ${instrutor.ordem ? `<div class="instrutor-ordem">${instrutor.ordem}</div>` : ''}
                 <div class="instrutor-foto">
                     ${instrutor.fotoUrl
                         ? `<img src="${escapeHtml(instrutor.fotoUrl)}" alt="${escapeHtml(instrutor.nome)}">`
@@ -1091,6 +1092,7 @@ async function abrirModalInstrutor(instrutor = null) {
     document.getElementById('instrutor-local').value = instrutor ? instrutor.localTrabalho || '' : '';
     document.getElementById('instrutor-tempo').value = instrutor ? instrutor.tempoCarreira || '' : '';
     document.getElementById('instrutor-bio').value = instrutor ? instrutor.miniBio || '' : '';
+    document.getElementById('instrutor-ordem').value = instrutor ? instrutor.ordem || '' : '';
     document.getElementById('instrutor-ativo').checked = instrutor ? instrutor.ativo : true;
 
     // Foto
@@ -1177,6 +1179,7 @@ async function handleSaveInstrutor(e) {
 
     const id = document.getElementById('instrutor-id').value;
 
+    const ordemValue = document.getElementById('instrutor-ordem').value;
     const data = {
         nome: document.getElementById('instrutor-nome').value,
         email: document.getElementById('instrutor-email').value || null,
@@ -1184,6 +1187,7 @@ async function handleSaveInstrutor(e) {
         localTrabalho: document.getElementById('instrutor-local').value || null,
         tempoCarreira: document.getElementById('instrutor-tempo').value || null,
         miniBio: document.getElementById('instrutor-bio').value || null,
+        ordem: ordemValue ? parseInt(ordemValue) : null,
         ativo: document.getElementById('instrutor-ativo').checked
     };
 

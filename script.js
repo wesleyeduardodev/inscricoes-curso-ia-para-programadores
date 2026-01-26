@@ -1,5 +1,5 @@
-//const API_BASE_URL = 'https://devquote.com.br/api/minicurso';
-const API_BASE_URL = 'http://localhost:8090/api/minicurso';
+const API_BASE_URL = 'https://devquote.com.br/api/minicurso';
+//const API_BASE_URL = 'http://localhost:8090/api/minicurso';
 
 document.addEventListener('DOMContentLoaded', () => {
     carregarEvento();
@@ -328,6 +328,12 @@ async function carregarInstrutores() {
         }
 
         const instrutores = await response.json();
+        instrutores.sort((a, b) => {
+            const ordemA = a.ordem !== null && a.ordem !== undefined ? a.ordem : 999;
+            const ordemB = b.ordem !== null && b.ordem !== undefined ? b.ordem : 999;
+            if (ordemA !== ordemB) return ordemA - ordemB;
+            return a.nome.localeCompare(b.nome, 'pt-BR');
+        });
         renderizarInstrutores(instrutores);
     } catch (error) {
         console.error('Erro ao carregar instrutores:', error);
