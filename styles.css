@@ -1166,6 +1166,45 @@ body {
     color: var(--accent-cyan);
 }
 
+/* Estilos para a nova seção de contato no rodapé */
+.footer-contact {
+    display: flex;
+    flex-direction: column;
+    gap: 12px; /* Espaçamento similar ao .footer-nav */
+}
+
+.footer-contact-links {
+    display: flex;
+    flex-direction: column;
+    gap: 8px; /* Espaçamento entre os links de contato */
+}
+
+.footer-link-contact {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px; /* Espaçamento entre o ícone e o texto */
+    color: var(--text-secondary); /* Cor de texto padrão */
+    text-decoration: none;
+    font-size: 14px;
+    transition: var(--transition); /* Transição suave */
+}
+
+.footer-link-contact:hover {
+    color: var(--accent-cyan); /* Cor de hover, similar a outros links */
+}
+
+.footer-link-contact svg {
+    width: 16px; /* Tamanho do ícone */
+    height: 16px;
+    stroke: var(--text-secondary); /* Cor do ícone */
+    transition: var(--transition);
+    flex-shrink: 0; /* Previne que o ícone diminua */
+}
+
+.footer-link-contact:hover svg {
+    stroke: var(--accent-cyan); /* Cor do ícone no hover */
+}
+
 .footer-event {
     display: flex;
     flex-direction: column;

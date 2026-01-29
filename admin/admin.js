@@ -1,5 +1,5 @@
-const API_BASE_URL = 'https://devquote.com.br/api';
-//const API_BASE_URL = 'http://localhost:8090/api';
+//const API_BASE_URL = 'https://devquote.com.br/api';
+const API_BASE_URL = 'http://localhost:8090/api';
 
 const AUTH_URL = `${API_BASE_URL}/auth`;
 const MINICURSO_URL = `${API_BASE_URL}/minicurso`;
@@ -277,6 +277,9 @@ async function loadEvento() {
                 document.getElementById('evento-local').value = eventoData.local || '';
                 document.getElementById('evento-vagas').value = eventoData.quantidadeVagas || '';
                 document.getElementById('evento-inscricoes-abertas').checked = eventoData.inscricoesAbertas;
+                document.getElementById('evento-exibir-fale-conosco').checked = eventoData.exibirFaleConosco;
+                document.getElementById('evento-email-contato').value = eventoData.emailContato || '';
+                document.getElementById('evento-whatsapp-contato').value = eventoData.whatsappContato || '';
             }
         }
     } catch (error) {
@@ -295,7 +298,10 @@ async function handleSaveEvento(e) {
         local: document.getElementById('evento-local').value || null,
         quantidadeVagas: document.getElementById('evento-vagas').value ?
             parseInt(document.getElementById('evento-vagas').value) : null,
-        inscricoesAbertas: document.getElementById('evento-inscricoes-abertas').checked
+        inscricoesAbertas: document.getElementById('evento-inscricoes-abertas').checked,
+        exibirFaleConosco: document.getElementById('evento-exibir-fale-conosco').checked,
+        emailContato: document.getElementById('evento-email-contato').value || null,
+        whatsappContato: document.getElementById('evento-whatsapp-contato').value || null
     };
 
     try {
