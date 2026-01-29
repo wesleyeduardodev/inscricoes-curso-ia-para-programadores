@@ -1,0 +1,107 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 70">
+  <defs>
+    <linearGradient id="neonGradient" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#00d4ff"/>
+      <stop offset="100%" stop-color="#7c3aed"/>
+    </linearGradient>
+    <linearGradient id="glowGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00d4ff"/>
+      <stop offset="50%" stop-color="#84BD00"/>
+      <stop offset="100%" stop-color="#7c3aed"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="1.5" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <style>
+      .tree-line { fill: none; stroke: url(#neonGradient); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+      .tree-node { fill: #0a0a0b; stroke: #00d4ff; stroke-width: 1.5; }
+      .tree-node-filled { fill: #00d4ff; }
+      .leaf { fill: #84BD00; filter: url(#glow); }
+      .bulb { fill: none; stroke: #fbbf24; stroke-width: 2; stroke-linecap: round; filter: url(#glow); }
+      .bulb-glow { fill: #fbbf24; opacity: 0.8; }
+    </style>
+  </defs>
+
+  <g filter="url(#glow)">
+    <!-- Tronco principal -->
+    <path class="tree-line" d="M30,68 L30,50 L30,35"/>
+
+    <!-- Raizes -->
+    <path class="tree-line" d="M30,68 L22,70"/>
+    <path class="tree-line" d="M30,68 L26,70"/>
+    <path class="tree-line" d="M30,68 L34,70"/>
+    <path class="tree-line" d="M30,68 L38,70"/>
+
+    <!-- Ramo esquerdo inferior -->
+    <path class="tree-line" d="M30,55 L18,55 L8,45"/>
+    <path class="tree-line" d="M18,55 L12,62"/>
+    <circle class="tree-node" cx="18" cy="55" r="3"/>
+    <circle class="tree-node" cx="8" cy="45" r="2.5"/>
+    <circle class="tree-node-filled" cx="12" cy="62" r="2"/>
+
+    <!-- Ramo direito inferior -->
+    <path class="tree-line" d="M30,55 L42,55 L52,45"/>
+    <path class="tree-line" d="M42,55 L48,62"/>
+    <circle class="tree-node" cx="42" cy="55" r="3"/>
+    <circle class="tree-node" cx="52" cy="45" r="2.5"/>
+    <circle class="tree-node-filled" cx="48" cy="62" r="2"/>
+
+    <!-- Ramo esquerdo medio -->
+    <path class="tree-line" d="M30,45 L15,42 L5,32"/>
+    <path class="tree-line" d="M15,42 L10,35"/>
+    <circle class="tree-node" cx="15" cy="42" r="3"/>
+    <circle class="tree-node" cx="5" cy="32" r="2.5"/>
+    <circle class="tree-node-filled" cx="10" cy="35" r="2"/>
+
+    <!-- Ramo direito medio -->
+    <path class="tree-line" d="M30,45 L45,42 L55,32"/>
+    <path class="tree-line" d="M45,42 L50,35"/>
+    <circle class="tree-node" cx="45" cy="42" r="3"/>
+    <circle class="tree-node" cx="55" cy="32" r="2.5"/>
+    <circle class="tree-node-filled" cx="50" cy="35" r="2"/>
+
+    <!-- Ramo esquerdo superior -->
+    <path class="tree-line" d="M30,35 L18,28 L8,20"/>
+    <path class="tree-line" d="M18,28 L15,18"/>
+    <circle class="tree-node" cx="18" cy="28" r="3"/>
+    <circle class="tree-node" cx="8" cy="20" r="2.5"/>
+    <circle class="tree-node-filled" cx="15" cy="18" r="2"/>
+
+    <!-- Ramo direito superior -->
+    <path class="tree-line" d="M30,35 L42,28 L52,20"/>
+    <path class="tree-line" d="M42,28 L45,18"/>
+    <circle class="tree-node" cx="42" cy="28" r="3"/>
+    <circle class="tree-node" cx="52" cy="20" r="2.5"/>
+    <circle class="tree-node-filled" cx="45" cy="18" r="2"/>
+
+    <!-- Topo para lampada -->
+    <path class="tree-line" d="M30,35 L30,22"/>
+    <path class="tree-line" d="M30,28 L24,22"/>
+    <path class="tree-line" d="M30,28 L36,22"/>
+    <circle class="tree-node" cx="30" cy="28" r="3"/>
+    <circle class="tree-node" cx="24" cy="22" r="2"/>
+    <circle class="tree-node" cx="36" cy="22" r="2"/>
+  </g>
+
+  <!-- Lampada no topo -->
+  <g transform="translate(30, 12)">
+    <ellipse class="bulb-glow" cx="0" cy="0" rx="3" ry="3"/>
+    <path class="bulb" d="M-5,4 Q-6,-2 -3,-7 Q0,-10 3,-7 Q6,-2 5,4"/>
+    <path class="bulb" d="M-4,4 L-4,6 L4,6 L4,4"/>
+    <line class="bulb" x1="-2" y1="8" x2="2" y2="8"/>
+  </g>
+
+  <!-- Folhas verdes -->
+  <ellipse class="leaf" cx="6" cy="28" rx="3" ry="1.5" transform="rotate(-45, 6, 28)"/>
+  <ellipse class="leaf" cx="12" cy="15" rx="3" ry="1.5" transform="rotate(-30, 12, 15)"/>
+  <ellipse class="leaf" cx="54" cy="28" rx="3" ry="1.5" transform="rotate(45, 54, 28)"/>
+  <ellipse class="leaf" cx="48" cy="15" rx="3" ry="1.5" transform="rotate(30, 48, 15)"/>
+  <ellipse class="leaf" cx="10" cy="58" rx="2.5" ry="1.2" transform="rotate(-50, 10, 58)"/>
+  <ellipse class="leaf" cx="50" cy="58" rx="2.5" ry="1.2" transform="rotate(50, 50, 58)"/>
+  <ellipse class="leaf" cx="3" cy="38" rx="2.5" ry="1.2" transform="rotate(-60, 3, 38)"/>
+  <ellipse class="leaf" cx="57" cy="38" rx="2.5" ry="1.2" transform="rotate(60, 57, 38)"/>
+</svg>

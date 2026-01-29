@@ -1,0 +1,128 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 150">
+  <defs>
+    <style>
+      .tree-line { fill: none; stroke: #1565C0; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+      .tree-node { fill: #ffffff; stroke: #1565C0; stroke-width: 2; }
+      .tree-node-filled { fill: #1565C0; stroke: #1565C0; stroke-width: 2; }
+      .leaf { fill: #7CB342; }
+      .bulb-outline { fill: none; stroke: #FFC107; stroke-width: 2.5; stroke-linecap: round; }
+      .bulb-glow { fill: #FFC107; }
+      .text-fabrica { fill: #1976D2; font-family: 'Georgia', serif; font-weight: bold; font-style: italic; }
+      .text-de { fill: #1976D2; font-family: 'Georgia', serif; font-size: 14px; }
+      .text-inovacao { fill: #7CB342; font-family: 'Georgia', serif; font-weight: bold; font-style: italic; }
+      .accent-red { fill: #D32F2F; }
+    </style>
+  </defs>
+
+  <!-- Arvore de Circuitos -->
+  <g id="tree">
+    <!-- Tronco principal -->
+    <path class="tree-line" d="M60,140 L60,100 L60,70"/>
+
+    <!-- Raizes (conectores na base) -->
+    <path class="tree-line" d="M60,140 L50,148"/>
+    <path class="tree-line" d="M60,140 L55,148"/>
+    <path class="tree-line" d="M60,140 L65,148"/>
+    <path class="tree-line" d="M60,140 L70,148"/>
+    <rect x="47" y="146" width="6" height="4" fill="#1565C0"/>
+    <rect x="52" y="146" width="6" height="4" fill="#1565C0"/>
+    <rect x="62" y="146" width="6" height="4" fill="#1565C0"/>
+    <rect x="67" y="146" width="6" height="4" fill="#1565C0"/>
+
+    <!-- Ramo esquerdo inferior -->
+    <path class="tree-line" d="M60,115 L40,115 L25,100"/>
+    <path class="tree-line" d="M40,115 L30,125"/>
+    <circle class="tree-node" cx="40" cy="115" r="4"/>
+    <circle class="tree-node" cx="25" cy="100" r="3"/>
+    <circle class="tree-node-filled" cx="30" cy="125" r="3"/>
+
+    <!-- Ramo direito inferior -->
+    <path class="tree-line" d="M60,115 L80,115 L95,100"/>
+    <path class="tree-line" d="M80,115 L90,125"/>
+    <circle class="tree-node" cx="80" cy="115" r="4"/>
+    <circle class="tree-node" cx="95" cy="100" r="3"/>
+    <circle class="tree-node-filled" cx="90" cy="125" r="3"/>
+
+    <!-- Ramo esquerdo medio -->
+    <path class="tree-line" d="M60,95 L35,95 L20,80"/>
+    <path class="tree-line" d="M35,95 L25,85"/>
+    <path class="tree-line" d="M20,80 L10,75"/>
+    <circle class="tree-node" cx="35" cy="95" r="4"/>
+    <circle class="tree-node" cx="20" cy="80" r="4"/>
+    <circle class="tree-node-filled" cx="25" cy="85" r="3"/>
+    <circle class="tree-node" cx="10" cy="75" r="3"/>
+
+    <!-- Ramo direito medio -->
+    <path class="tree-line" d="M60,95 L85,95 L100,80"/>
+    <path class="tree-line" d="M85,95 L95,85"/>
+    <path class="tree-line" d="M100,80 L110,75"/>
+    <circle class="tree-node" cx="85" cy="95" r="4"/>
+    <circle class="tree-node" cx="100" cy="80" r="4"/>
+    <circle class="tree-node-filled" cx="95" cy="85" r="3"/>
+    <circle class="tree-node" cx="110" cy="75" r="3"/>
+
+    <!-- Ramo esquerdo superior -->
+    <path class="tree-line" d="M60,75 L40,65 L25,55"/>
+    <path class="tree-line" d="M40,65 L35,50"/>
+    <path class="tree-line" d="M25,55 L15,50"/>
+    <path class="tree-line" d="M25,55 L20,45"/>
+    <circle class="tree-node" cx="40" cy="65" r="4"/>
+    <circle class="tree-node" cx="25" cy="55" r="4"/>
+    <circle class="tree-node-filled" cx="35" cy="50" r="3"/>
+    <circle class="tree-node" cx="15" cy="50" r="3"/>
+    <circle class="tree-node" cx="20" cy="45" r="3"/>
+
+    <!-- Ramo direito superior -->
+    <path class="tree-line" d="M60,75 L80,65 L95,55"/>
+    <path class="tree-line" d="M80,65 L85,50"/>
+    <path class="tree-line" d="M95,55 L105,50"/>
+    <path class="tree-line" d="M95,55 L100,45"/>
+    <circle class="tree-node" cx="80" cy="65" r="4"/>
+    <circle class="tree-node" cx="95" cy="55" r="4"/>
+    <circle class="tree-node-filled" cx="85" cy="50" r="3"/>
+    <circle class="tree-node" cx="105" cy="50" r="3"/>
+    <circle class="tree-node" cx="100" cy="45" r="3"/>
+
+    <!-- Topo central para lampada -->
+    <path class="tree-line" d="M60,70 L60,45 L60,35"/>
+    <path class="tree-line" d="M60,55 L50,45"/>
+    <path class="tree-line" d="M60,55 L70,45"/>
+    <circle class="tree-node" cx="60" cy="55" r="4"/>
+    <circle class="tree-node" cx="50" cy="45" r="3"/>
+    <circle class="tree-node" cx="70" cy="45" r="3"/>
+  </g>
+
+  <!-- Lampada -->
+  <g id="bulb" transform="translate(60, 22)">
+    <ellipse class="bulb-glow" cx="0" cy="-5" rx="3" ry="4" opacity="0.6"/>
+    <path class="bulb-outline" d="M-8,5 Q-10,-5 -5,-12 Q0,-16 5,-12 Q10,-5 8,5"/>
+    <path class="bulb-outline" d="M-6,5 L-6,8 L6,8 L6,5"/>
+    <line class="bulb-outline" x1="-4" y1="10" x2="4" y2="10"/>
+  </g>
+
+  <!-- Folhas -->
+  <g id="leaves">
+    <ellipse class="leaf" cx="12" cy="72" rx="4" ry="2" transform="rotate(-45, 12, 72)"/>
+    <ellipse class="leaf" cx="18" cy="42" rx="4" ry="2" transform="rotate(-30, 18, 42)"/>
+    <ellipse class="leaf" cx="32" cy="47" rx="4" ry="2" transform="rotate(30, 32, 47)"/>
+    <ellipse class="leaf" cx="22" cy="82" rx="4" ry="2" transform="rotate(-60, 22, 82)"/>
+    <ellipse class="leaf" cx="28" cy="122" rx="4" ry="2" transform="rotate(-45, 28, 122)"/>
+
+    <ellipse class="leaf" cx="108" cy="72" rx="4" ry="2" transform="rotate(45, 108, 72)"/>
+    <ellipse class="leaf" cx="102" cy="42" rx="4" ry="2" transform="rotate(30, 102, 42)"/>
+    <ellipse class="leaf" cx="88" cy="47" rx="4" ry="2" transform="rotate(-30, 88, 47)"/>
+    <ellipse class="leaf" cx="98" cy="82" rx="4" ry="2" transform="rotate(60, 98, 82)"/>
+    <ellipse class="leaf" cx="92" cy="122" rx="4" ry="2" transform="rotate(45, 92, 122)"/>
+
+    <ellipse class="leaf" cx="45" cy="38" rx="3" ry="1.5" transform="rotate(-20, 45, 38)"/>
+    <ellipse class="leaf" cx="75" cy="38" rx="3" ry="1.5" transform="rotate(20, 75, 38)"/>
+  </g>
+
+  <!-- Texto "Fabrica de Inovacao" -->
+  <g id="text" transform="translate(130, 45)">
+    <text class="text-fabrica" x="0" y="30" font-size="38">fabrica</text>
+    <text class="text-de" x="175" y="15">de</text>
+    <text class="text-inovacao" x="0" y="75" font-size="38">inovacao</text>
+    <rect class="accent-red" x="0" y="50" width="3" height="20"/>
+  </g>
+</svg>

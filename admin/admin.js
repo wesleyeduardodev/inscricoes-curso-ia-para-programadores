@@ -1,5 +1,5 @@
-//const API_BASE_URL = 'https://devquote.com.br/api';
-const API_BASE_URL = 'http://localhost:8090/api';
+const API_BASE_URL = 'https://devquote.com.br/api';
+//const API_BASE_URL = 'http://localhost:8090/api';
 
 const AUTH_URL = `${API_BASE_URL}/auth`;
 const MINICURSO_URL = `${API_BASE_URL}/minicurso`;
