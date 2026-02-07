@@ -1038,6 +1038,29 @@ body {
     gap: 20px;
 }
 
+.data-evento-row {
+    display: flex;
+    align-items: flex-end;
+    gap: 12px;
+    padding: 16px;
+    background: var(--bg-primary);
+    border: 1px solid var(--border-light);
+    border-radius: var(--border-radius);
+    margin-bottom: 8px;
+}
+
+.data-evento-row .data-evento-fields {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 80px 1fr 1fr 1fr;
+    gap: 12px;
+}
+
+.data-evento-row .btn-remove-data {
+    flex-shrink: 0;
+    margin-bottom: 4px;
+}
+
 /* Toggle Switch */
 .toggle-switch {
     display: flex;
@@ -2647,6 +2670,19 @@ body {
 
     .form-section-content {
         padding: 20px;
+    }
+
+    .data-evento-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .data-evento-row .data-evento-fields {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .data-evento-row .btn-remove-data {
+        align-self: flex-end;
     }
 
     .toggle-hint {

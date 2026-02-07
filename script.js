@@ -1,5 +1,5 @@
-const API_BASE_URL = 'https://wesley.devquote.com.br/api/minicurso';
-//const API_BASE_URL = 'http://localhost:8090/api/minicurso';
+//const API_BASE_URL = 'https://wesley.devquote.com.br/api/minicurso';
+const API_BASE_URL = 'http://localhost:8080/api/minicurso';
 
 document.addEventListener('DOMContentLoaded', () => {
     carregarEvento();
@@ -44,21 +44,24 @@ async function carregarContador() {
 }
 
 function renderizarInformacoes(evento) {
-    if (evento.dataEvento) {
-        const data = new Date(evento.dataEvento + 'T00:00:00');
-        document.getElementById('info-data').textContent = data.toLocaleDateString('pt-BR', {
-            weekday: 'long',
-            day: 'numeric',
-            month: 'long',
-            year: 'numeric'
-        });
-    }
+    const datasContainer = document.getElementById('datas-info-container');
 
-    if (evento.horarioInicio && evento.horarioFim) {
-        document.getElementById('info-horario').textContent =
-            `${evento.horarioInicio} as ${evento.horarioFim}`;
-    } else if (evento.horarioInicio) {
-        document.getElementById('info-horario').textContent = evento.horarioInicio;
+    if (evento.datasEvento && evento.datasEvento.length > 0) {
+        datasContainer.innerHTML = evento.datasEvento.map(data => `
+            <div class="info-card">
+                <div class="info-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                        <line x1="16" y1="2" x2="16" y2="6"></line>
+                        <line x1="8" y1="2" x2="8" y2="6"></line>
+                        <line x1="3" y1="10" x2="21" y2="10"></line>
+                    </svg>
+                </div>
+                <div class="info-label">Dia ${escapeHtml(String(data.ordem))}</div>
+                <div class="info-value">${escapeHtml(data.dataFormatada)}</div>
+                <div class="info-sub">${escapeHtml(data.horarioFormatado)}</div>
+            </div>
+        `).join('');
     }
 
     if (evento.local) {

@@ -1,5 +1,5 @@
-const API_BASE_URL = 'https://wesley.devquote.com.br/api';
-//const API_BASE_URL = 'http://localhost:8090/api';
+//const API_BASE_URL = 'https://wesley.devquote.com.br/api';
+const API_BASE_URL = 'http://localhost:8080/api';
 
 const AUTH_URL = `${API_BASE_URL}/auth`;
 const MINICURSO_URL = `${API_BASE_URL}/minicurso`;
@@ -80,6 +80,7 @@ function setupEventListeners() {
     });
 
     document.getElementById('form-evento').addEventListener('submit', handleSaveEvento);
+    document.getElementById('btn-add-data').addEventListener('click', () => adicionarDataEventoRow({}));
     document.getElementById('btn-novo-modulo').addEventListener('click', () => abrirModalModulo());
     document.getElementById('form-modulo').addEventListener('submit', handleSaveModulo);
     document.getElementById('form-item').addEventListener('submit', handleSaveItem);
@@ -271,15 +272,13 @@ async function loadEvento() {
             eventoData = text ? JSON.parse(text) : null;
             if (eventoData) {
                 document.getElementById('evento-titulo').value = eventoData.titulo || '';
-                document.getElementById('evento-data').value = eventoData.dataEvento || '';
-                document.getElementById('evento-horario-inicio').value = eventoData.horarioInicio || '';
-                document.getElementById('evento-horario-fim').value = eventoData.horarioFim || '';
                 document.getElementById('evento-local').value = eventoData.local || '';
                 document.getElementById('evento-vagas').value = eventoData.quantidadeVagas || '';
                 document.getElementById('evento-inscricoes-abertas').checked = eventoData.inscricoesAbertas;
                 document.getElementById('evento-exibir-fale-conosco').checked = eventoData.exibirFaleConosco;
                 document.getElementById('evento-email-contato').value = eventoData.emailContato || '';
                 document.getElementById('evento-whatsapp-contato').value = eventoData.whatsappContato || '';
+                renderizarDatasEvento(eventoData.datasEvento || []);
             }
         }
     } catch (error) {
@@ -287,14 +286,99 @@ async function loadEvento() {
     }
 }
 
+function renderizarDatasEvento(datas) {
+    const container = document.getElementById('datas-evento-list');
+    container.innerHTML = '';
+
+    if (!datas || datas.length === 0) {
+        adicionarDataEventoRow({});
+        return;
+    }
+
+    datas.forEach(data => adicionarDataEventoRow(data));
+}
+
+function adicionarDataEventoRow(data) {
+    const container = document.getElementById('datas-evento-list');
+    const rowCount = container.querySelectorAll('.data-evento-row').length;
+
+    if (!data) {
+        data = {};
+    }
+
+    const row = document.createElement('div');
+    row.className = 'data-evento-row';
+    row.dataset.id = data.id || '';
+
+    row.innerHTML = `
+        <div class="data-evento-fields">
+            <div class="form-group">
+                <label>Ordem</label>
+                <input type="number" class="data-ordem" min="1" value="${data.ordem || rowCount + 1}" required>
+            </div>
+            <div class="form-group">
+                <label>Data</label>
+                <input type="date" class="data-evento" value="${data.dataEvento || ''}" required>
+            </div>
+            <div class="form-group">
+                <label>Inicio</label>
+                <input type="time" class="data-horario-inicio" value="${data.horarioInicio || ''}" required>
+            </div>
+            <div class="form-group">
+                <label>Fim</label>
+                <input type="time" class="data-horario-fim" value="${data.horarioFim || ''}" required>
+            </div>
+        </div>
+        <button type="button" class="btn btn-sm btn-danger btn-remove-data" onclick="removerDataEvento(this)">
+            Remover
+        </button>
+    `;
+
+    container.appendChild(row);
+}
+
+function removerDataEvento(btn) {
+    const container = document.getElementById('datas-evento-list');
+    if (container.querySelectorAll('.data-evento-row').length <= 1) {
+        showToast('O evento deve ter pelo menos uma data', 'warning');
+        return;
+    }
+    btn.closest('.data-evento-row').remove();
+}
+
+function coletarDatasEvento() {
+    const rows = document.querySelectorAll('.data-evento-row');
+    const datas = [];
+
+    rows.forEach(row => {
+        const dataEvento = row.querySelector('.data-evento').value;
+        const horarioInicio = row.querySelector('.data-horario-inicio').value;
+        const horarioFim = row.querySelector('.data-horario-fim').value;
+        const ordem = row.querySelector('.data-ordem').value;
+
+        if (dataEvento && horarioInicio && horarioFim) {
+            const item = {
+                dataEvento: dataEvento,
+                horarioInicio: horarioInicio,
+                horarioFim: horarioFim,
+                ordem: parseInt(ordem)
+            };
+            if (row.dataset.id) {
+                item.id = parseInt(row.dataset.id);
+            }
+            datas.push(item);
+        }
+    });
+
+    return datas;
+}
+
 async function handleSaveEvento(e) {
     e.preventDefault();
 
     const data = {
         titulo: document.getElementById('evento-titulo').value,
-        dataEvento: document.getElementById('evento-data').value || null,
-        horarioInicio: document.getElementById('evento-horario-inicio').value || null,
-        horarioFim: document.getElementById('evento-horario-fim').value || null,
+        datasEvento: coletarDatasEvento(),
         local: document.getElementById('evento-local').value || null,
         quantidadeVagas: document.getElementById('evento-vagas').value ?
             parseInt(document.getElementById('evento-vagas').value) : null,

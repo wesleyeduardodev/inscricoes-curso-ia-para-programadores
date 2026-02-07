@@ -236,7 +236,7 @@
                         </div>
                     </div>
 
-                    <!-- Seção: Data e Horário -->
+                    <!-- Seção: Datas e Horários -->
                     <div class="form-section">
                         <div class="form-section-header">
                             <div class="form-section-icon">
@@ -248,25 +248,15 @@
                                 </svg>
                             </div>
                             <div>
-                                <h3>Data e Horario</h3>
-                                <p>Quando o evento acontecera</p>
+                                <h3>Datas e Horarios</h3>
+                                <p>Quando o evento acontecera (pode ter mais de um dia)</p>
                             </div>
                         </div>
                         <div class="form-section-content">
-                            <div class="form-grid-3">
-                                <div class="form-group">
-                                    <label for="evento-data">Data</label>
-                                    <input type="date" id="evento-data">
-                                </div>
-                                <div class="form-group">
-                                    <label for="evento-horario-inicio">Horario Inicio</label>
-                                    <input type="time" id="evento-horario-inicio">
-                                </div>
-                                <div class="form-group">
-                                    <label for="evento-horario-fim">Horario Fim</label>
-                                    <input type="time" id="evento-horario-fim">
-                                </div>
-                            </div>
+                            <div id="datas-evento-list"></div>
+                            <button type="button" class="btn btn-secondary btn-sm" id="btn-add-data" style="margin-top: 12px;">
+                                + Adicionar Data
+                            </button>
                         </div>
                     </div>
 
