@@ -1,5 +1,5 @@
-//const API_BASE_URL = 'https://wesley.devquote.com.br/api/minicurso';
-const API_BASE_URL = 'http://localhost:8080/api/minicurso';
+const API_BASE_URL = 'https://wesley.devquote.com.br/api/minicurso';
+//const API_BASE_URL = 'http://localhost:8080/api/minicurso';
 
 document.addEventListener('DOMContentLoaded', () => {
     carregarEvento();
