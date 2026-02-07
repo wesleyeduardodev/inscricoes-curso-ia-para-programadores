@@ -27,8 +27,8 @@ function showToast(message, type = 'success', title = null) {
     const titles = {
         success: 'Sucesso',
         error: 'Erro',
-        warning: 'Atencao',
-        info: 'Informacao'
+        warning: 'Atenção',
+        info: 'Informação'
     };
 
     const toast = document.createElement('div');
@@ -147,7 +147,7 @@ async function handleLogin(e) {
             );
 
             if (!hasAdminCurso) {
-                errorDiv.textContent = 'Acesso negado. Usuario nao tem permissao para gerenciar o minicurso.';
+                errorDiv.textContent = 'Acesso negado. Usuário não tem permissão para gerenciar o minicurso.';
                 errorDiv.classList.add('show');
                 return;
             }
@@ -157,11 +157,11 @@ async function handleLogin(e) {
             showAdminPage();
         } else {
             const error = await response.json();
-            errorDiv.textContent = error.message || 'Usuario ou senha invalidos';
+            errorDiv.textContent = error.message || 'Usuário ou senha inválidos';
             errorDiv.classList.add('show');
         }
     } catch (error) {
-        errorDiv.textContent = 'Erro de conexao. Tente novamente.';
+        errorDiv.textContent = 'Erro de conexão. Tente novamente.';
         errorDiv.classList.add('show');
     } finally {
         btn.disabled = false;
@@ -227,7 +227,7 @@ async function apiRequest(url, options = {}) {
 
     if (response.status === 401) {
         handleLogout();
-        throw new Error('Sessao expirada');
+        throw new Error('Sessão expirada');
     }
 
     return response;
@@ -321,7 +321,7 @@ function adicionarDataEventoRow(data) {
                 <input type="date" class="data-evento" value="${data.dataEvento || ''}" required>
             </div>
             <div class="form-group">
-                <label>Inicio</label>
+                <label>Início</label>
                 <input type="time" class="data-horario-inicio" value="${data.horarioInicio || ''}" required>
             </div>
             <div class="form-group">
@@ -395,14 +395,14 @@ async function handleSaveEvento(e) {
         });
 
         if (response.ok) {
-            showToast('Configuracoes do evento salvas com sucesso!');
+            showToast('Configurações do evento salvas com sucesso!');
             loadDashboard();
         } else {
-            showToast('Erro ao salvar configuracoes do evento', 'error');
+            showToast('Erro ao salvar configurações do evento', 'error');
         }
     } catch (error) {
         console.error('Erro:', error);
-        showToast('Erro ao salvar configuracoes do evento', 'error');
+        showToast('Erro ao salvar configurações do evento', 'error');
     }
 }
 
@@ -418,12 +418,12 @@ async function loadModulos() {
             if (evento && evento.modulos && evento.modulos.length > 0) {
                 renderModulos(evento.modulos);
             } else {
-                container.innerHTML = '<p class="empty-message">Nenhum modulo cadastrado. Cadastre o evento primeiro.</p>';
+                container.innerHTML = '<p class="empty-message">Nenhum módulo cadastrado. Cadastre o evento primeiro.</p>';
             }
         }
     } catch (error) {
-        console.error('Erro ao carregar modulos:', error);
-        container.innerHTML = '<p class="empty-message">Erro ao carregar modulos.</p>';
+        console.error('Erro ao carregar módulos:', error);
+        container.innerHTML = '<p class="empty-message">Erro ao carregar módulos.</p>';
     }
 }
 
@@ -478,7 +478,7 @@ function renderModulos(modulos) {
 async function abrirModalModulo(modulo = null) {
     await loadInstrutoresForModulo();
 
-    document.getElementById('modal-modulo-title').textContent = modulo ? 'Editar Modulo' : 'Novo Modulo';
+    document.getElementById('modal-modulo-title').textContent = modulo ? 'Editar Módulo' : 'Novo Módulo';
     document.getElementById('modulo-id').value = modulo ? modulo.id : '';
     document.getElementById('modulo-titulo').value = modulo ? modulo.titulo : '';
     document.getElementById('modulo-descricao').value = modulo ? modulo.descricao || '' : '';
@@ -547,20 +547,20 @@ async function handleSaveModulo(e) {
             fecharModalModulo();
             loadModulos();
             loadDashboard();
-            showToast('Modulo salvo com sucesso!');
+            showToast('Módulo salvo com sucesso!');
         } else {
-            showToast('Erro ao salvar modulo', 'error');
+            showToast('Erro ao salvar módulo', 'error');
         }
     } catch (error) {
         console.error('Erro:', error);
-        showToast('Erro ao salvar modulo', 'error');
+        showToast('Erro ao salvar módulo', 'error');
     }
 }
 
 function confirmarExcluirModulo(id) {
-    document.getElementById('confirm-title').textContent = 'Excluir Modulo';
+    document.getElementById('confirm-title').textContent = 'Excluir Módulo';
     document.getElementById('confirm-message').textContent =
-        'Tem certeza que deseja excluir este modulo e todos os seus itens?';
+        'Tem certeza que deseja excluir este módulo e todos os seus itens?';
     document.getElementById('btn-confirm-action').onclick = () => excluirModulo(id);
     document.getElementById('modal-confirm').style.display = 'flex';
 }
@@ -575,13 +575,13 @@ async function excluirModulo(id) {
             fecharModalConfirm();
             loadModulos();
             loadDashboard();
-            showToast('Modulo excluido com sucesso!');
+            showToast('Módulo excluído com sucesso!');
         } else {
-            showToast('Erro ao excluir modulo', 'error');
+            showToast('Erro ao excluir módulo', 'error');
         }
     } catch (error) {
         console.error('Erro:', error);
-        showToast('Erro ao excluir modulo', 'error');
+        showToast('Erro ao excluir módulo', 'error');
     }
 }
 
@@ -672,7 +672,7 @@ async function excluirItem(id) {
         if (response.ok) {
             fecharModalConfirm();
             loadModulos();
-            showToast('Item excluido com sucesso!');
+            showToast('Item excluído com sucesso!');
         } else {
             showToast('Erro ao excluir item', 'error');
         }
@@ -695,13 +695,13 @@ async function loadInscricoes() {
     const tbody = document.getElementById('inscricoes-tbody');
     const cards = document.getElementById('inscricoes-cards');
     tbody.innerHTML = '<tr><td colspan="9" class="empty-message">Carregando...</td></tr>';
-    cards.innerHTML = '<p class="empty-message">Carregando inscricoes...</p>';
+    cards.innerHTML = '<p class="empty-message">Carregando inscrições...</p>';
 
     try {
         const response = await apiRequest(`${MINICURSO_URL}/inscricoes`);
         if (response.ok) {
             allInscricoes = await response.json();
-            // Ordenar por nome alfabeticamente por padrao
+            // Ordenar por nome alfabeticamente por padrão
             allInscricoes.sort((a, b) => a.nome.localeCompare(b.nome, 'pt-BR'));
             filteredInscricoes = [...allInscricoes];
             currentPage = 1;
@@ -709,9 +709,9 @@ async function loadInscricoes() {
             renderInscricoes();
         }
     } catch (error) {
-        console.error('Erro ao carregar inscricoes:', error);
-        tbody.innerHTML = '<tr><td colspan="9" class="empty-message">Erro ao carregar inscricoes.</td></tr>';
-        cards.innerHTML = '<p class="empty-message">Erro ao carregar inscricoes.</p>';
+        console.error('Erro ao carregar inscrições:', error);
+        tbody.innerHTML = '<tr><td colspan="9" class="empty-message">Erro ao carregar inscrições.</td></tr>';
+        cards.innerHTML = '<p class="empty-message">Erro ao carregar inscrições.</p>';
     }
 }
 
@@ -785,13 +785,13 @@ function renderInscricoes() {
     const cards = document.getElementById('inscricoes-cards');
 
     if (filteredInscricoes.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="9" class="empty-message">Nenhuma inscricao encontrada.</td></tr>';
-        cards.innerHTML = '<p class="empty-message">Nenhuma inscricao encontrada.</p>';
+        tbody.innerHTML = '<tr><td colspan="9" class="empty-message">Nenhuma inscrição encontrada.</td></tr>';
+        cards.innerHTML = '<p class="empty-message">Nenhuma inscrição encontrada.</p>';
         updatePagination(0, 0, 0);
         return;
     }
 
-    // Calcular paginacao
+    // Calcular paginação
     const totalItems = filteredInscricoes.length;
     const totalPages = Math.ceil(totalItems / itemsPerPage);
     const startIndex = (currentPage - 1) * itemsPerPage;
@@ -848,7 +848,7 @@ function renderInscricoes() {
         </div>
     `).join('');
 
-    // Atualizar paginacao
+    // Atualizar paginação
     updatePagination(startIndex + 1, endIndex, totalItems);
     renderPaginationPages(totalPages);
 }
@@ -873,15 +873,15 @@ function renderPaginationPages(totalPages) {
 
     let pages = [];
 
-    // Sempre mostrar primeira pagina
+    // Sempre mostrar primeira página
     pages.push(1);
 
-    // Paginas ao redor da atual
+    // Páginas ao redor da atual
     for (let i = Math.max(2, currentPage - 1); i <= Math.min(totalPages - 1, currentPage + 1); i++) {
         if (!pages.includes(i)) pages.push(i);
     }
 
-    // Sempre mostrar ultima pagina
+    // Sempre mostrar última página
     if (totalPages > 1) pages.push(totalPages);
 
     // Ordenar e remover duplicatas
@@ -939,8 +939,8 @@ function handleLastPage() {
 }
 
 function confirmarExcluirInscricao(id) {
-    document.getElementById('confirm-title').textContent = 'Excluir Inscricao';
-    document.getElementById('confirm-message').textContent = 'Tem certeza que deseja excluir esta inscricao?';
+    document.getElementById('confirm-title').textContent = 'Excluir Inscrição';
+    document.getElementById('confirm-message').textContent = 'Tem certeza que deseja excluir esta inscrição?';
     document.getElementById('btn-confirm-action').onclick = () => excluirInscricao(id);
     document.getElementById('modal-confirm').style.display = 'flex';
 }
@@ -955,13 +955,13 @@ async function excluirInscricao(id) {
             fecharModalConfirm();
             loadInscricoes();
             loadDashboard();
-            showToast('Inscricao excluida com sucesso!');
+            showToast('Inscrição excluída com sucesso!');
         } else {
-            showToast('Erro ao excluir inscricao', 'error');
+            showToast('Erro ao excluir inscrição', 'error');
         }
     } catch (error) {
         console.error('Erro:', error);
-        showToast('Erro ao excluir inscricao', 'error');
+        showToast('Erro ao excluir inscrição', 'error');
     }
 }
 
@@ -979,13 +979,13 @@ async function handleExport() {
             a.click();
             window.URL.revokeObjectURL(url);
             a.remove();
-            showToast('Exportacao concluida com sucesso!');
+            showToast('Exportação concluída com sucesso!');
         } else {
-            showToast('Erro ao exportar inscricoes', 'error');
+            showToast('Erro ao exportar inscrições', 'error');
         }
     } catch (error) {
         console.error('Erro:', error);
-        showToast('Erro ao exportar inscricoes', 'error');
+        showToast('Erro ao exportar inscrições', 'error');
     }
 }
 
@@ -1122,7 +1122,7 @@ async function loadModulosForInstrutor() {
             allModulosForInstrutor = evento && evento.modulos ? evento.modulos : [];
         }
     } catch (error) {
-        console.error('Erro ao carregar modulos:', error);
+        console.error('Erro ao carregar módulos:', error);
         allModulosForInstrutor = [];
     }
 }
@@ -1131,7 +1131,7 @@ function renderModulosCheckboxes(selectedIds = []) {
     const container = document.getElementById('modulos-checkboxes');
 
     if (allModulosForInstrutor.length === 0) {
-        container.innerHTML = '<p class="empty-message">Nenhum modulo cadastrado.</p>';
+        container.innerHTML = '<p class="empty-message">Nenhum módulo cadastrado.</p>';
         return;
     }
 
@@ -1229,14 +1229,14 @@ function handleFotoSelect(e) {
 
     // Validar tipo
     if (!['image/jpeg', 'image/png', 'image/webp'].includes(file.type)) {
-        showToast('Formato invalido. Use JPEG, PNG ou WebP.', 'error');
+        showToast('Formato inválido. Use JPEG, PNG ou WebP.', 'error');
         e.target.value = '';
         return;
     }
 
     // Validar tamanho (2MB)
     if (file.size > 2 * 1024 * 1024) {
-        showToast('Arquivo muito grande. Maximo 2MB.', 'error');
+        showToast('Arquivo muito grande. Máximo 2MB.', 'error');
         e.target.value = '';
         return;
     }
@@ -1339,7 +1339,7 @@ async function uploadFotoInstrutor(instrutorId) {
 function confirmarExcluirInstrutor(id) {
     document.getElementById('confirm-title').textContent = 'Excluir Instrutor';
     document.getElementById('confirm-message').textContent =
-        'Tem certeza que deseja excluir este instrutor? Esta acao nao pode ser desfeita.';
+        'Tem certeza que deseja excluir este instrutor? Esta ação não pode ser desfeita.';
     document.getElementById('btn-confirm-action').onclick = () => excluirInstrutor(id);
     document.getElementById('modal-confirm').style.display = 'flex';
 }
@@ -1353,7 +1353,7 @@ async function excluirInstrutor(id) {
         if (response.ok) {
             fecharModalConfirm();
             loadInstrutores();
-            showToast('Instrutor excluido com sucesso!');
+            showToast('Instrutor excluído com sucesso!');
         } else {
             showToast('Erro ao excluir instrutor', 'error');
         }

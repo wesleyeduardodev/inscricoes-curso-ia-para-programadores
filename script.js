@@ -27,7 +27,7 @@ async function carregarEvento() {
     } catch (error) {
         console.error('Erro ao carregar evento:', error);
         document.getElementById('modulos-container').innerHTML =
-            '<p class="loading-placeholder">Nao foi possivel carregar o conteudo. Tente novamente mais tarde.</p>';
+            '<p class="loading-placeholder">Não foi possível carregar o conteúdo. Tente novamente mais tarde.</p>';
     }
 }
 
@@ -89,8 +89,8 @@ function renderizarModulos(modulos) {
                         <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
                     </svg>
                 </div>
-                <h3>Conteudo em preparacao</h3>
-                <p>O conteudo programatico sera divulgado em breve. Fique atento!</p>
+                <h3>Conteúdo em preparação</h3>
+                <p>O conteúdo programático será divulgado em breve. Fique atento!</p>
             </div>
         `;
         return;
@@ -100,7 +100,7 @@ function renderizarModulos(modulos) {
         <div class="modulo-card">
             <div class="modulo-header">
                 <div class="modulo-numero">
-                    <span class="modulo-numero-label">Modulo</span>
+                    <span class="modulo-numero-label">Módulo</span>
                     <span class="modulo-numero-value">${String(index + 1).padStart(2, '0')}</span>
                 </div>
                 ${modulo.cargaHorariaFormatada ?
@@ -149,7 +149,7 @@ function verificarInscricoesAbertas(evento) {
         document.getElementById('closed-message').style.display = 'block';
         document.querySelector('#closed-message h3').textContent = 'Vagas esgotadas';
         document.querySelector('#closed-message p').textContent =
-            'Todas as vagas para este evento ja foram preenchidas.';
+            'Todas as vagas para este evento já foram preenchidas.';
     }
 }
 
@@ -186,7 +186,7 @@ function setupFormulario() {
             if (checkResponse.ok) {
                 const checkData = await checkResponse.json();
                 if (checkData.exists) {
-                    mostrarErro('email', 'Este email ja esta inscrito');
+                    mostrarErro('email', 'Este e-mail já está inscrito');
                     submitBtn.disabled = false;
                     btnText.style.display = 'inline';
                     btnLoading.style.display = 'none';
@@ -208,26 +208,25 @@ function setupFormulario() {
                 carregarContador();
             } else {
                 const errorData = await response.json();
+                const errorCode = errorData.errorCode;
 
-                if (response.status === 409 || (errorData.detail && errorData.detail.includes('Email'))) {
-                    mostrarErro('email', 'Este email ja esta inscrito');
-                } else if (errorData.detail && errorData.detail.includes('Vagas')) {
-                    alert('Desculpe, as vagas foram esgotadas.');
-                    location.reload();
-                } else if (errorData.detail && errorData.detail.includes('encerradas')) {
-                    alert('Desculpe, as inscricoes foram encerradas.');
-                    location.reload();
+                if (errorCode === 'EMAIL_DUPLICADO' || response.status === 409) {
+                    mostrarErro('email', 'Este e-mail já está inscrito');
+                } else if (errorCode === 'VAGAS_ESGOTADAS') {
+                    mostrarMensagemBloqueio('Vagas esgotadas', 'Todas as vagas para este evento foram preenchidas.');
+                } else if (errorCode === 'INSCRICOES_ENCERRADAS') {
+                    mostrarMensagemBloqueio('Inscrições encerradas', 'As inscrições para este evento foram encerradas.');
                 } else if (errorData.errors) {
                     errorData.errors.forEach(err => {
                         mostrarErro(err.field, err.message);
                     });
                 } else {
-                    alert('Ocorreu um erro ao processar sua inscricao. Tente novamente.');
+                    alert('Ocorreu um erro ao processar sua inscrição. Tente novamente.');
                 }
             }
         } catch (error) {
             console.error('Erro ao enviar inscricao:', error);
-            alert('Erro de conexao. Verifique sua internet e tente novamente.');
+            alert('Erro de conexão. Verifique sua internet e tente novamente.');
         } finally {
             submitBtn.disabled = false;
             btnText.style.display = 'inline';
@@ -265,19 +264,19 @@ function validarFormulario() {
     const email = document.getElementById('email').value.trim();
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
-        mostrarErro('email', 'Email invalido');
+        mostrarErro('email', 'E-mail inválido');
         valido = false;
     }
 
     const curso = document.getElementById('curso').value.trim();
     if (!curso) {
-        mostrarErro('curso', 'Curso e obrigatorio');
+        mostrarErro('curso', 'Curso é obrigatório');
         valido = false;
     }
 
     const nivel = document.getElementById('nivelProgramacao').value;
     if (!nivel) {
-        mostrarErro('nivelProgramacao', 'Selecione seu nivel de programacao');
+        mostrarErro('nivelProgramacao', 'Selecione seu nível de programação');
         valido = false;
     }
 
@@ -317,6 +316,15 @@ function limparTodosErros() {
     });
 }
 
+function mostrarMensagemBloqueio(titulo, mensagem) {
+    document.getElementById('form-container').style.display = 'none';
+    const closedMsg = document.getElementById('closed-message');
+    closedMsg.style.display = 'block';
+    closedMsg.querySelector('h3').textContent = titulo;
+    closedMsg.querySelector('p').textContent = mensagem;
+    carregarContador();
+}
+
 function escapeHtml(text) {
     if (!text) return '';
     const div = document.createElement('div');
@@ -342,7 +350,7 @@ async function carregarInstrutores() {
     } catch (error) {
         console.error('Erro ao carregar instrutores:', error);
         document.getElementById('instrutores-container').innerHTML =
-            '<p class="no-instrutores">Informacoes sobre instrutores em breve.</p>';
+            '<p class="no-instrutores">Informações sobre instrutores em breve.</p>';
     }
 }
 
@@ -350,7 +358,7 @@ function renderizarInstrutores(instrutores) {
     const container = document.getElementById('instrutores-container');
 
     if (!instrutores || instrutores.length === 0) {
-        container.innerHTML = '<p class="no-instrutores">Informacoes sobre instrutores em breve.</p>';
+        container.innerHTML = '<p class="no-instrutores">Informações sobre instrutores em breve.</p>';
         return;
     }
 
