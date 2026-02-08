@@ -590,7 +590,7 @@ body {
 }
 
 .admin-logo-icon {
-    height: 32px;
+    height: 40px;
     width: auto;
     object-fit: contain;
 }
@@ -598,7 +598,7 @@ body {
 .admin-logo-divider {
     color: rgba(255, 255, 255, 0.3);
     font-weight: 300;
-    font-size: 20px;
+    font-size: 24px;
 }
 
 .admin-logo-brand {
@@ -608,7 +608,7 @@ body {
 }
 
 .admin-ia {
-    font-size: 18px;
+    font-size: 20px;
     font-weight: 800;
     background: linear-gradient(135deg, #00d4ff 0%, #7c3aed 100%);
     -webkit-background-clip: text;
@@ -617,13 +617,13 @@ body {
 }
 
 .admin-4 {
-    font-size: 18px;
+    font-size: 20px;
     font-weight: 800;
     color: #a855f7;
 }
 
 .admin-devs {
-    font-size: 18px;
+    font-size: 20px;
     font-weight: 800;
     background: linear-gradient(135deg, #f472b6 0%, #a855f7 100%);
     -webkit-background-clip: text;
