@@ -158,6 +158,7 @@ body {
     margin-left: 12px;
     padding-left: 12px;
     border-left: 1px solid var(--border-color);
+    white-space: nowrap;
 }
 
 .nav {
@@ -1136,10 +1137,11 @@ body {
     display: flex;
     align-items: center;
     gap: 12px;
+    white-space: nowrap;
 }
 
 .footer-logo-icon {
-    height: 32px;
+    height: 40px;
     width: auto;
     object-fit: contain;
 }
@@ -1657,6 +1659,33 @@ body {
 
     .footer-brand {
         align-items: center;
+    }
+
+    .footer-logo-icon {
+        height: 28px;
+    }
+
+    .footer-logo {
+        gap: 8px;
+    }
+
+    .footer-ia, .footer-devs {
+        font-size: 14px;
+    }
+
+    .footer-4 {
+        font-size: 14px;
+    }
+
+    .footer-divider-bar {
+        font-size: 16px;
+        margin: 0 4px;
+    }
+
+    .footer-subtitle {
+        font-size: 10px;
+        margin-left: 6px;
+        padding-left: 6px;
     }
 
     .footer-nav {

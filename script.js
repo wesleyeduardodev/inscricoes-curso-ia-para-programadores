@@ -206,6 +206,7 @@ function setupFormulario() {
                 document.getElementById('form-container').style.display = 'none';
                 document.getElementById('success-message').style.display = 'block';
                 carregarContador();
+                carregarEvento();
             } else {
                 const errorData = await response.json();
                 const errorCode = errorData.errorCode;
