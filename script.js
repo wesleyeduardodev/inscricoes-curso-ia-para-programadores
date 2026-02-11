@@ -146,11 +146,12 @@ function verificarInscricoesAbertas(evento) {
     }
 
     if (evento && evento.vagasDisponiveis !== null && evento.vagasDisponiveis <= 0) {
-        ativarModoListaEspera();
+        ativarModoListaEspera(evento.totalListaEspera || 0);
     }
 }
 
-function ativarModoListaEspera() {
+function ativarModoListaEspera(totalListaEspera) {
+    document.getElementById('vagas-disponiveis').textContent = totalListaEspera;
     const heroBadge = document.querySelector('.hero-badge');
     if (heroBadge) {
         heroBadge.textContent = 'Lista de Espera';
