@@ -108,6 +108,11 @@ function setupEventListeners() {
     document.getElementById('filter-status-mobile').addEventListener('change', applyFiltersMobile);
     document.getElementById('btn-clear-filters-mobile').addEventListener('click', clearFiltersMobile);
 
+    // Ordenacao
+    document.querySelectorAll('.sortable').forEach(th => {
+        th.addEventListener('click', () => handleSort(th.dataset.sort));
+    });
+
     // Instrutores
     document.getElementById('btn-novo-instrutor').addEventListener('click', () => abrirModalInstrutor());
     document.getElementById('form-instrutor').addEventListener('submit', handleSaveInstrutor);
@@ -699,6 +704,7 @@ let allInscricoes = [];
 let filteredInscricoes = [];
 let currentPage = 1;
 let itemsPerPage = 10;
+let currentSort = { field: 'createdAt', direction: 'asc' };
 
 async function loadInscricoes() {
     const tbody = document.getElementById('inscricoes-tbody');
@@ -711,7 +717,7 @@ async function loadInscricoes() {
         if (response.ok) {
             allInscricoes = await response.json();
             // Ordenar por nome alfabeticamente por padrão
-            allInscricoes.sort((a, b) => a.nome.localeCompare(b.nome, 'pt-BR'));
+            allInscricoes.sort((a, b) => a.createdAt.localeCompare(b.createdAt));
             filteredInscricoes = [...allInscricoes];
             currentPage = 1;
             clearFilters();
@@ -790,6 +796,45 @@ function clearFiltersDesktop() {
 
 function clearFiltersMobile() {
     clearFiltersDesktop();
+}
+
+function handleSort(field) {
+    if (currentSort.field === field) {
+        currentSort.direction = currentSort.direction === 'asc' ? 'desc' : 'asc';
+    } else {
+        currentSort.field = field;
+        currentSort.direction = 'asc';
+    }
+
+    document.querySelectorAll('.sortable').forEach(th => {
+        th.classList.remove('sort-asc', 'sort-desc');
+    });
+    const activeTh = document.querySelector(`.sortable[data-sort="${field}"]`);
+    if (activeTh) {
+        activeTh.classList.add(currentSort.direction === 'asc' ? 'sort-asc' : 'sort-desc');
+    }
+
+    sortInscricoes();
+    currentPage = 1;
+    renderInscricoes();
+}
+
+function sortInscricoes() {
+    const { field, direction } = currentSort;
+    const modifier = direction === 'asc' ? 1 : -1;
+
+    filteredInscricoes.sort((a, b) => {
+        if (field === 'id') {
+            return (a.id - b.id) * modifier;
+        }
+        if (field === 'nome') {
+            return a.nome.localeCompare(b.nome, 'pt-BR') * modifier;
+        }
+        if (field === 'createdAt') {
+            return a.createdAt.localeCompare(b.createdAt) * modifier;
+        }
+        return 0;
+    });
 }
 
 function clearFilters() {
@@ -1034,7 +1079,7 @@ async function handleExportPdf() {
 function formatDate(dateStr) {
     if (!dateStr) return '--';
     const date = new Date(dateStr);
-    return date.toLocaleDateString('pt-BR') + ' ' + date.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+    return date.toLocaleDateString('pt-BR') + ' ' + date.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
 }
 
 function escapeHtml(text) {

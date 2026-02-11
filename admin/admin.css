@@ -1418,6 +1418,34 @@ body {
     border-bottom: 1px solid var(--border-light);
 }
 
+.data-table th.sortable {
+    cursor: pointer;
+    user-select: none;
+    transition: color 0.2s;
+}
+
+.data-table th.sortable:hover {
+    color: var(--text-primary);
+}
+
+.data-table th.sortable .sort-icon::after {
+    content: '\2195';
+    margin-left: 4px;
+    opacity: 0.4;
+}
+
+.data-table th.sortable.sort-asc .sort-icon::after {
+    content: '\2191';
+    opacity: 1;
+    color: var(--accent-primary);
+}
+
+.data-table th.sortable.sort-desc .sort-icon::after {
+    content: '\2193';
+    opacity: 1;
+    color: var(--accent-primary);
+}
+
 .data-table td {
     border-bottom: 1px solid var(--border-light);
     color: var(--text-secondary);
