@@ -1048,7 +1048,8 @@ body {
    SUCCESS / CLOSED MESSAGES
 ======================================== */
 .success-message,
-.closed-message {
+.closed-message,
+.waitlist-message {
     background: var(--bg-card);
     border-radius: var(--border-radius-2xl);
     padding: 64px 48px;
@@ -1079,7 +1080,8 @@ body {
 }
 
 .success-message h3,
-.closed-message h3 {
+.closed-message h3,
+.waitlist-message h3 {
     font-size: 24px;
     font-weight: 600;
     margin-bottom: 12px;
@@ -1087,10 +1089,36 @@ body {
 }
 
 .success-message p,
-.closed-message p {
+.closed-message p,
+.waitlist-message p {
     color: var(--text-secondary);
     font-size: 15px;
     line-height: 1.7;
+}
+
+.waitlist-message {
+    border-color: rgba(245, 158, 11, 0.3);
+}
+
+.waitlist-message h3 {
+    color: #f59e0b;
+}
+
+.waitlist-icon {
+    font-size: 60px;
+    margin-bottom: 28px;
+    display: block;
+}
+
+.hero-badge.lista-espera {
+    background: rgba(245, 158, 11, 0.08);
+    border-color: rgba(245, 158, 11, 0.2);
+    color: #f59e0b;
+}
+
+.hero-badge.lista-espera::before {
+    background: #f59e0b;
+    box-shadow: 0 0 8px #f59e0b;
 }
 
 .loading-placeholder {

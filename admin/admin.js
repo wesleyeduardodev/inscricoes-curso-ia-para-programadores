@@ -1,5 +1,5 @@
-const API_BASE_URL = 'https://wesley.devquote.com.br/api';
-//const API_BASE_URL = 'http://localhost:8080/api';
+//const API_BASE_URL = 'https://wesley.devquote.com.br/api';
+const API_BASE_URL = 'http://localhost:8080/api';
 
 const AUTH_URL = `${API_BASE_URL}/auth`;
 const MINICURSO_URL = `${API_BASE_URL}/minicurso`;
@@ -97,6 +97,7 @@ function setupEventListeners() {
     document.getElementById('filter-email').addEventListener('input', applyFiltersDesktop);
     document.getElementById('filter-curso').addEventListener('input', applyFiltersDesktop);
     document.getElementById('filter-nivel').addEventListener('change', applyFiltersDesktop);
+    document.getElementById('filter-status').addEventListener('change', applyFiltersDesktop);
     document.getElementById('btn-clear-filters').addEventListener('click', clearFiltersDesktop);
 
     // Filtros mobile
@@ -104,6 +105,7 @@ function setupEventListeners() {
     document.getElementById('filter-email-mobile').addEventListener('input', applyFiltersMobile);
     document.getElementById('filter-curso-mobile').addEventListener('input', applyFiltersMobile);
     document.getElementById('filter-nivel-mobile').addEventListener('change', applyFiltersMobile);
+    document.getElementById('filter-status-mobile').addEventListener('change', applyFiltersMobile);
     document.getElementById('btn-clear-filters-mobile').addEventListener('click', clearFiltersMobile);
 
     // Instrutores
@@ -235,14 +237,21 @@ async function apiRequest(url, options = {}) {
 
 async function loadDashboard() {
     try {
-        const [countRes, eventoRes] = await Promise.all([
+        const [countRes, eventoRes, inscricoesRes] = await Promise.all([
             fetch(`${MINICURSO_URL}/inscricoes/count`),
-            fetch(`${MINICURSO_URL}/evento`)
+            fetch(`${MINICURSO_URL}/evento`),
+            apiRequest(`${MINICURSO_URL}/inscricoes`)
         ]);
 
         if (countRes.ok) {
             const countData = await countRes.json();
             document.getElementById('stat-inscritos').textContent = countData.total || 0;
+        }
+
+        if (inscricoesRes.ok) {
+            const inscricoes = await inscricoesRes.json();
+            const listaEspera = inscricoes.filter(i => !i.confirmado).length;
+            document.getElementById('stat-lista-espera').textContent = listaEspera;
         }
 
         if (eventoRes.ok) {
@@ -694,7 +703,7 @@ let itemsPerPage = 10;
 async function loadInscricoes() {
     const tbody = document.getElementById('inscricoes-tbody');
     const cards = document.getElementById('inscricoes-cards');
-    tbody.innerHTML = '<tr><td colspan="9" class="empty-message">Carregando...</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="10" class="empty-message">Carregando...</td></tr>';
     cards.innerHTML = '<p class="empty-message">Carregando inscrições...</p>';
 
     try {
@@ -710,7 +719,7 @@ async function loadInscricoes() {
         }
     } catch (error) {
         console.error('Erro ao carregar inscrições:', error);
-        tbody.innerHTML = '<tr><td colspan="9" class="empty-message">Erro ao carregar inscrições.</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="10" class="empty-message">Erro ao carregar inscrições.</td></tr>';
         cards.innerHTML = '<p class="empty-message">Erro ao carregar inscrições.</p>';
     }
 }
@@ -720,14 +729,15 @@ function applyFiltersDesktop() {
     const filterEmail = document.getElementById('filter-email').value.toLowerCase();
     const filterCurso = document.getElementById('filter-curso').value.toLowerCase();
     const filterNivel = document.getElementById('filter-nivel').value;
+    const filterStatus = document.getElementById('filter-status').value;
 
-    // Sincronizar com mobile
     document.getElementById('filter-nome-mobile').value = document.getElementById('filter-nome').value;
     document.getElementById('filter-email-mobile').value = document.getElementById('filter-email').value;
     document.getElementById('filter-curso-mobile').value = document.getElementById('filter-curso').value;
     document.getElementById('filter-nivel-mobile').value = filterNivel;
+    document.getElementById('filter-status-mobile').value = filterStatus;
 
-    applyFiltersCommon(filterNome, filterEmail, filterCurso, filterNivel);
+    applyFiltersCommon(filterNome, filterEmail, filterCurso, filterNivel, filterStatus);
 }
 
 function applyFiltersMobile() {
@@ -735,23 +745,27 @@ function applyFiltersMobile() {
     const filterEmail = document.getElementById('filter-email-mobile').value.toLowerCase();
     const filterCurso = document.getElementById('filter-curso-mobile').value.toLowerCase();
     const filterNivel = document.getElementById('filter-nivel-mobile').value;
+    const filterStatus = document.getElementById('filter-status-mobile').value;
 
-    // Sincronizar com desktop
     document.getElementById('filter-nome').value = document.getElementById('filter-nome-mobile').value;
     document.getElementById('filter-email').value = document.getElementById('filter-email-mobile').value;
     document.getElementById('filter-curso').value = document.getElementById('filter-curso-mobile').value;
     document.getElementById('filter-nivel').value = filterNivel;
+    document.getElementById('filter-status').value = filterStatus;
 
-    applyFiltersCommon(filterNome, filterEmail, filterCurso, filterNivel);
+    applyFiltersCommon(filterNome, filterEmail, filterCurso, filterNivel, filterStatus);
 }
 
-function applyFiltersCommon(filterNome, filterEmail, filterCurso, filterNivel) {
+function applyFiltersCommon(filterNome, filterEmail, filterCurso, filterNivel, filterStatus) {
     filteredInscricoes = allInscricoes.filter(i => {
         const matchNome = !filterNome || i.nome.toLowerCase().includes(filterNome);
         const matchEmail = !filterEmail || i.email.toLowerCase().includes(filterEmail);
         const matchCurso = !filterCurso || i.curso.toLowerCase().includes(filterCurso);
         const matchNivel = !filterNivel || i.nivelProgramacao === filterNivel;
-        return matchNome && matchEmail && matchCurso && matchNivel;
+        const matchStatus = !filterStatus ||
+            (filterStatus === 'CONFIRMADO' && i.confirmado) ||
+            (filterStatus === 'LISTA_ESPERA' && !i.confirmado);
+        return matchNome && matchEmail && matchCurso && matchNivel && matchStatus;
     });
 
     currentPage = 1;
@@ -763,10 +777,12 @@ function clearFiltersDesktop() {
     document.getElementById('filter-email').value = '';
     document.getElementById('filter-curso').value = '';
     document.getElementById('filter-nivel').value = '';
+    document.getElementById('filter-status').value = '';
     document.getElementById('filter-nome-mobile').value = '';
     document.getElementById('filter-email-mobile').value = '';
     document.getElementById('filter-curso-mobile').value = '';
     document.getElementById('filter-nivel-mobile').value = '';
+    document.getElementById('filter-status-mobile').value = '';
     filteredInscricoes = [...allInscricoes];
     currentPage = 1;
     renderInscricoes();
@@ -785,7 +801,7 @@ function renderInscricoes() {
     const cards = document.getElementById('inscricoes-cards');
 
     if (filteredInscricoes.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="9" class="empty-message">Nenhuma inscrição encontrada.</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="10" class="empty-message">Nenhuma inscrição encontrada.</td></tr>';
         cards.innerHTML = '<p class="empty-message">Nenhuma inscrição encontrada.</p>';
         updatePagination(0, 0, 0);
         return;
@@ -807,6 +823,7 @@ function renderInscricoes() {
             <td>${escapeHtml(inscricao.telefone || '-')}</td>
             <td>${escapeHtml(inscricao.curso)}</td>
             <td><span class="nivel-badge nivel-${inscricao.nivelProgramacao.toLowerCase()}">${inscricao.nivelProgramacao}</span></td>
+            <td><span class="status-badge ${inscricao.confirmado ? 'status-confirmado' : 'status-lista-espera'}">${inscricao.confirmado ? 'Confirmado' : 'Lista de espera'}</span></td>
             <td>${escapeHtml(inscricao.periodo || '-')}</td>
             <td class="td-date">${formatDate(inscricao.createdAt)}</td>
             <td>
@@ -824,6 +841,7 @@ function renderInscricoes() {
                 <span class="inscricao-card-id">#${inscricao.id}</span>
                 <span class="inscricao-card-name">${escapeHtml(inscricao.nome)}</span>
                 <span class="nivel-badge nivel-${inscricao.nivelProgramacao.toLowerCase()}">${inscricao.nivelProgramacao}</span>
+                <span class="status-badge ${inscricao.confirmado ? 'status-confirmado' : 'status-lista-espera'}">${inscricao.confirmado ? 'Confirmado' : 'Lista de espera'}</span>
             </div>
             <div class="inscricao-card-body">
                 <div class="inscricao-card-row">

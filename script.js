@@ -1,5 +1,5 @@
-const API_BASE_URL = 'https://wesley.devquote.com.br/api/minicurso';
-//const API_BASE_URL = 'http://localhost:8080/api/minicurso';
+//const API_BASE_URL = 'https://wesley.devquote.com.br/api/minicurso';
+const API_BASE_URL = 'http://localhost:8080/api/minicurso';
 
 document.addEventListener('DOMContentLoaded', () => {
     carregarEvento();
@@ -142,14 +142,45 @@ function verificarInscricoesAbertas(evento) {
     if (evento && evento.inscricoesAbertas === false) {
         document.getElementById('form-container').style.display = 'none';
         document.getElementById('closed-message').style.display = 'block';
+        return;
     }
 
     if (evento && evento.vagasDisponiveis !== null && evento.vagasDisponiveis <= 0) {
-        document.getElementById('form-container').style.display = 'none';
-        document.getElementById('closed-message').style.display = 'block';
-        document.querySelector('#closed-message h3').textContent = 'Vagas esgotadas';
-        document.querySelector('#closed-message p').textContent =
-            'Todas as vagas para este evento já foram preenchidas.';
+        ativarModoListaEspera();
+    }
+}
+
+function ativarModoListaEspera() {
+    const heroBadge = document.querySelector('.hero-badge');
+    if (heroBadge) {
+        heroBadge.textContent = 'Lista de Espera';
+        heroBadge.classList.add('lista-espera');
+    }
+
+    const heroCtaBtn = document.querySelector('.hero-cta .btn-primary');
+    if (heroCtaBtn) {
+        const svg = heroCtaBtn.querySelector('svg');
+        heroCtaBtn.textContent = '';
+        heroCtaBtn.appendChild(document.createTextNode('Entrar na lista de espera '));
+        if (svg) heroCtaBtn.appendChild(svg);
+    }
+
+    const vagasLabel = document.querySelector('#vagas-disponiveis')
+        ?.closest('.stat-card')
+        ?.querySelector('.stat-label');
+    if (vagasLabel) {
+        vagasLabel.textContent = 'Lista de espera';
+    }
+
+    const submitBtn = document.getElementById('btn-submit');
+    if (submitBtn) {
+        const btnTextSpan = submitBtn.querySelector('.btn-text');
+        if (btnTextSpan) {
+            const svg = btnTextSpan.querySelector('svg');
+            btnTextSpan.textContent = '';
+            btnTextSpan.appendChild(document.createTextNode('Entrar na lista de espera '));
+            if (svg) btnTextSpan.appendChild(svg);
+        }
     }
 }
 
@@ -203,8 +234,15 @@ function setupFormulario() {
             });
 
             if (response.ok) {
+                const responseData = await response.json();
                 document.getElementById('form-container').style.display = 'none';
-                document.getElementById('success-message').style.display = 'block';
+
+                if (responseData.confirmado === false) {
+                    document.getElementById('waitlist-message').style.display = 'block';
+                } else {
+                    document.getElementById('success-message').style.display = 'block';
+                }
+
                 carregarContador();
                 carregarEvento();
             } else {
@@ -213,8 +251,6 @@ function setupFormulario() {
 
                 if (errorCode === 'EMAIL_DUPLICADO' || response.status === 409) {
                     mostrarErro('email', 'Este e-mail já está inscrito');
-                } else if (errorCode === 'VAGAS_ESGOTADAS') {
-                    mostrarMensagemBloqueio('Vagas esgotadas', 'Todas as vagas para este evento foram preenchidas.');
                 } else if (errorCode === 'INSCRICOES_ENCERRADAS') {
                     mostrarMensagemBloqueio('Inscrições encerradas', 'As inscrições para este evento foram encerradas.');
                 } else if (errorData.errors) {

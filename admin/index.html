@@ -189,6 +189,18 @@
                         <div class="stat-label">Vagas Disponíveis</div>
                     </div>
                     <div class="stat-card">
+                        <div class="stat-icon stat-icon-espera">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                                <circle cx="9" cy="7" r="4"/>
+                                <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                                <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                            </svg>
+                        </div>
+                        <div class="stat-value" id="stat-lista-espera">0</div>
+                        <div class="stat-label">Lista de Espera</div>
+                    </div>
+                    <div class="stat-card">
                         <div class="stat-icon">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
@@ -442,6 +454,13 @@
                             <option value="AVANCADO">Avançado</option>
                         </select>
                     </div>
+                    <div class="mobile-filter-row">
+                        <select id="filter-status-mobile" class="filter-select">
+                            <option value="">Todos os status</option>
+                            <option value="CONFIRMADO">Confirmado</option>
+                            <option value="LISTA_ESPERA">Lista de espera</option>
+                        </select>
+                    </div>
                     <button id="btn-clear-filters-mobile" class="btn btn-sm btn-ghost btn-block">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
@@ -461,6 +480,7 @@
                                 <th>Telefone</th>
                                 <th>Curso</th>
                                 <th>Nível</th>
+                                <th>Status</th>
                                 <th>Período</th>
                                 <th>Data</th>
                                 <th>Ações</th>
@@ -479,6 +499,13 @@
                                         <option value="AVANCADO">Avançado</option>
                                     </select>
                                 </th>
+                                <th>
+                                    <select id="filter-status" class="filter-select">
+                                        <option value="">Todos</option>
+                                        <option value="CONFIRMADO">Confirmado</option>
+                                        <option value="LISTA_ESPERA">Lista de espera</option>
+                                    </select>
+                                </th>
                                 <th></th>
                                 <th></th>
                                 <th>
@@ -491,7 +518,7 @@
                             </tr>
                         </thead>
                         <tbody id="inscricoes-tbody">
-                            <tr><td colspan="9" class="empty-message">Carregando inscrições...</td></tr>
+                            <tr><td colspan="10" class="empty-message">Carregando inscrições...</td></tr>
                         </tbody>
                     </table>
                 </div>
